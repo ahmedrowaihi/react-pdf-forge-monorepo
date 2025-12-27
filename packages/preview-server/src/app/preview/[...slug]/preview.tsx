@@ -19,9 +19,9 @@ import { ViewSizeControls } from '../../../components/topbar/view-size-controls'
 import { usePreviewContext } from '../../../contexts/preview';
 import { useClampedState } from '../../../hooks/use-clamped-state';
 import { cn } from '../../../utils';
-import { TemplateFrame } from './template-frame';
-import { ErrorOverlay } from './error-overlay';
 import { DownloadButton } from './download-button';
+import { ErrorOverlay } from './error-overlay';
+import { TemplateFrame } from './template-frame';
 
 interface PreviewProps extends React.ComponentProps<'div'> {
   templateTitle: string;

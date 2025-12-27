@@ -74,4 +74,3 @@ export const tree = async (dirPath: string, depth: number) => {
   const lines = await getTreeLines(dirPath, depth);
   return lines.join(os.EOL);
 };
-

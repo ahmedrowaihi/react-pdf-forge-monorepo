@@ -4,9 +4,9 @@ import url from 'node:url';
 import { createJiti } from 'jiti';
 import logSymbols from 'log-symbols';
 import ora from 'ora';
-import { registerSpinnerAutostopping } from '../register-spinner-autostopping.js';
 import { getPreviewServerLocation } from '../get-preview-server-location.js';
 import { packageJson } from '../packageJson.js';
+import { registerSpinnerAutostopping } from '../register-spinner-autostopping.js';
 import { styleText } from '../style-text.js';
 import { getEnvVariablesForPreviewApp } from './get-env-variables-for-preview-app.js';
 import { serveStaticFile } from './serve-static-file.js';
@@ -142,7 +142,7 @@ export const startDevServer = async (
     ),
   };
 
-  const next = await previewServer.import<(typeof import('next'))['default']>(
+  const next = await previewServer.import<typeof import('next')['default']>(
     'next',
     {
       default: true,

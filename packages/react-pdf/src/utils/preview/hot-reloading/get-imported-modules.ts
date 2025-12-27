@@ -37,7 +37,7 @@ export const getImportedModules = (contents: string) => {
       if ('name' in node.callee && node.callee.name === 'require') {
         if (node.arguments.length === 1) {
           const importPathNode = node.arguments[0]!;
-          if (importPathNode!.type === 'StringLiteral') {
+          if (importPathNode.type === 'StringLiteral') {
             importedPaths.push(importPathNode.value);
           }
         }
@@ -47,4 +47,3 @@ export const getImportedModules = (contents: string) => {
 
   return importedPaths;
 };
-

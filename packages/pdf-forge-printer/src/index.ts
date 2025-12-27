@@ -1,3 +1,3 @@
-export { PlaywrightPdfService } from './playwright-pdf.service';
-export { ConsoleLogger } from './logger';
 export type { PdfLogger } from './logger';
+export { ConsoleLogger } from './logger';
+export { PlaywrightPdfService } from './playwright-pdf.service';

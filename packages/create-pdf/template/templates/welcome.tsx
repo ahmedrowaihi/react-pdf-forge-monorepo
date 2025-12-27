@@ -1,8 +1,4 @@
-import * as React from 'react';
-import {
-  Document,
-  Body,
-} from '@ahmedrowaihi/pdf-forge-components';
+import { Body, Document } from '@ahmedrowaihi/pdf-forge-components';
 
 export interface WelcomeProps {
   name?: string;

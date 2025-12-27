@@ -27,4 +27,3 @@ process.on('exit', (code) => {
 export const registerSpinnerAutostopping = (spinner: Ora) => {
   spinners.add(spinner);
 };
-

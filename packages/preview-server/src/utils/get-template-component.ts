@@ -8,8 +8,8 @@ import { convertStackWithSourceMap } from './convert-stack-with-sourcemap';
 import { renderingUtilitiesExporter } from './esbuild/renderring-utilities-exporter';
 import { isErr } from './result';
 import { createContext, runBundledCode } from './run-bundled-code';
-import type { Template as TemplateComponent } from './types/template';
 import type { ErrorObject } from './types/error-object';
+import type { Template as TemplateComponent } from './types/template';
 
 const TemplateComponentModule = z.object({
   default: z.any(),
@@ -85,7 +85,11 @@ export const getTemplateComponent = async (
 
   const context = createContext(templatePath);
   context.shouldIncludeSourceReference = false;
-  const runningResult = runBundledCode(builtTemplateCode, templatePath, context);
+  const runningResult = runBundledCode(
+    builtTemplateCode,
+    templatePath,
+    context,
+  );
 
   if (isErr(runningResult)) {
     const { error } = runningResult;
@@ -152,4 +156,3 @@ export const getTemplateComponent = async (
     sourceMapToOriginalFile: sourceMapToTemplate,
   };
 };
-

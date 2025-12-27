@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 export interface ThemeProps {
   /** CSS variables and styles for this theme variant */

@@ -7,7 +7,7 @@ import { Shell } from '../../../components/shell';
 import { Toolbar } from '../../../components/toolbar';
 import { PreviewProvider } from '../../../contexts/preview';
 import { getTemplatesDirectoryMetadata } from '../../../utils/get-templates-directory-metadata';
-import { templatesDirectoryAbsolutePath, isBuilding } from '../../env';
+import { isBuilding, templatesDirectoryAbsolutePath } from '../../env';
 import Preview from './preview';
 
 export const dynamicParams = true;

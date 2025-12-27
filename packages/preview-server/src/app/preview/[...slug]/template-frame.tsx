@@ -1,5 +1,5 @@
-import { useEffect, useRef, forwardRef } from 'react';
 import type { ComponentProps } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 
 interface TemplateFrameProps extends ComponentProps<'iframe'> {
   markup: string;

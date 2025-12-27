@@ -1,6 +1,6 @@
-import { chromium, type Browser } from 'playwright';
-import type { PdfLogger } from './logger';
 import { access } from 'node:fs/promises';
+import { type Browser, chromium } from 'playwright';
+import type { PdfLogger } from './logger';
 import { ConsoleLogger } from './logger';
 
 // A4 dimensions in pixels at 96 DPI (standard web resolution)
@@ -124,26 +124,22 @@ export class PlaywrightPdfService {
           omitBackground: true, // Transparent background
         });
         return new Uint8Array(screenshotBuffer);
-      } else {
-        const pdfBuffer = await page.pdf({
-          format: 'A4',
-          printBackground: true,
-          preferCSSPageSize: true,
-          // Hide header and footer
-          displayHeaderFooter: false,
-          // No document outline
-          outline: false,
-          // Best quality scale
-          scale: 1,
-          margin: {
-            top: '0px',
-            right: '0px',
-            bottom: '0px',
-            left: '0px',
-          },
-        });
-        return new Uint8Array(pdfBuffer);
       }
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        preferCSSPageSize: true,
+        displayHeaderFooter: false,
+        outline: false,
+        scale: 1,
+        margin: {
+          top: '0px',
+          right: '0px',
+          bottom: '0px',
+          left: '0px',
+        },
+      });
+      return new Uint8Array(pdfBuffer);
     } catch (error) {
       this.logger.error('Playwright error:', error);
       if (error instanceof Error && error.message.includes('browser')) {

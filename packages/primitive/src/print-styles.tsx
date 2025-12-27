@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 export interface PrintStylesProps {
   /** Preserve colors when printing */
@@ -71,7 +71,7 @@ export const PrintStyles: React.FC<Readonly<PrintStylesProps>> = ({
     : '';
 
   const css = `@media print {
-${styles.join('\n\n')}${customStyles ? '\n\n' + customStyles : ''}
+${styles.join('\n\n')}${customStyles ? `\n\n${customStyles}` : ''}
 }`;
 
   return <style dangerouslySetInnerHTML={{ __html: css }} />;

@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Document, Theme, Body } from '@ahmedrowaihi/pdf-forge-components';
+import { Body, Document, Theme } from '@ahmedrowaihi/pdf-forge-components';
 
 export interface SimpleDemoProps {
   title?: string;

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { getTemplatePathFromSlug } from '../actions/get-template-path-from-slug';
 import {
-  type TemplateRenderingResult,
   renderTemplateByPath,
+  type TemplateRenderingResult,
 } from '../actions/render-template-by-path';
 import { isBuilding, isPreviewDevelopment } from '../app/env';
 import { useTemplates } from '../contexts/templates';

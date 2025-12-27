@@ -3,11 +3,11 @@ import path from 'node:path';
 import logSymbols from 'log-symbols';
 import { installDependencies, type PackageManagerName, runScript } from 'nypm';
 import ora from 'ora';
-import {
-  type TemplatesDirectory,
-  getTemplatesDirectoryMetadata,
-} from '../utils/get-templates-directory-metadata.js';
 import { getPreviewServerLocation } from '../utils/get-preview-server-location.js';
+import {
+  getTemplatesDirectoryMetadata,
+  type TemplatesDirectory,
+} from '../utils/get-templates-directory-metadata.js';
 import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping.js';
 
 interface Args {
@@ -89,8 +89,9 @@ const forceSSGForPDFPreviews = async (
   templatesDirPath: string,
   builtPreviewAppPath: string,
 ) => {
-  const templatesDirectoryMetadata =
-    (await getTemplatesDirectoryMetadata(templatesDirPath))!;
+  const templatesDirectoryMetadata = (await getTemplatesDirectoryMetadata(
+    templatesDirPath,
+  ))!;
 
   const parameters = getTemplateSlugsFromTemplateDirectory(
     templatesDirectoryMetadata,

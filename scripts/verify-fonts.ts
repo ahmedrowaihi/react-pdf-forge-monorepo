@@ -9,8 +9,8 @@
  * 3. Generate a test HTML page to visually verify fonts
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import * as opentype from 'opentype.js';
 
 interface FontInfo {
@@ -86,7 +86,7 @@ function verifyFonts() {
     }
   }
 
-  console.log('\n' + '='.repeat(80));
+  console.log(`\n${'='.repeat(80)}`);
   console.log('\n📋 Summary:\n');
 
   // Check for mismatches

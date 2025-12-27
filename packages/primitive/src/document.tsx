@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { Html } from './html';
-import { Head } from './head';
+import type * as React from 'react';
 import { Body } from './body';
+import { Head } from './head';
+import { Html } from './html';
 
 export interface DocumentProps {
   /** Document language */

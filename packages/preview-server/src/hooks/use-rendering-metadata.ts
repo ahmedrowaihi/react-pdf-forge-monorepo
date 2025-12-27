@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import type {
-  TemplateRenderingResult,
   RenderedTemplateMetadata,
+  TemplateRenderingResult,
 } from '../actions/render-template-by-path';
 
 const lastRenderingMetadataPerTemplatePath = {} as Record<

@@ -11,8 +11,8 @@ import ora, { type Ora } from 'ora';
 import type React from 'react';
 import { renderingUtilitiesExporter } from '../utils/esbuild/renderring-utilities-exporter.js';
 import {
-  type TemplatesDirectory,
   getTemplatesDirectoryMetadata,
+  type TemplatesDirectory,
 } from '../utils/get-templates-directory-metadata.js';
 import { tree } from '../utils/index.js';
 import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping.js';

@@ -125,6 +125,9 @@ importers:
         specifier: ^8.0.0
         version: 8.2.0
     devDependencies:
+      '@ahmedrowaihi/pdf-forge-components':
+        specifier: workspace:*
+        version: link:../components
       nypm:
         specifier: 0.6.0
         version: 0.6.0
@@ -387,6 +390,9 @@ importers:
       '@ahmedrowaihi/pdf-forge-components':
         specifier: workspace:*
         version: link:../components
+      '@ahmedrowaihi/pdf-forge-core':
+        specifier: workspace:*
+        version: link:../render
       '@types/babel__core':
         specifier: 7.20.5
         version: 7.20.5
