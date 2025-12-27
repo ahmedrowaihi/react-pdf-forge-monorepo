@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-printer",
-  "version": "0.1.0",
+  "version": "1.0.0-canary.0",
   "description": "Playwright-based PDF and screenshot rendering service",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
