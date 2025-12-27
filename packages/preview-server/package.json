@@ -13,6 +13,7 @@
   "main": "./index.mjs",
   "dependencies": {
     "@ahmedrowaihi/pdf-forge-printer": "workspace:*",
+    "esbuild": "0.25.10",
     "next": "^16"
   },
   "devDependencies": {
@@ -44,7 +45,6 @@
     "@types/webpack": "5.28.5",
     "clsx": "2.1.1",
     "colorjs.io": "0.5.2",
-    "esbuild": "0.25.10",
     "framer-motion": "12.23.22",
     "log-symbols": "4.1.0",
     "module-punycode": "npm:punycode@2.3.1",

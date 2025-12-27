@@ -165,6 +165,9 @@ importers:
       '@ahmedrowaihi/pdf-forge-printer':
         specifier: workspace:*
         version: link:../pdf-forge-printer
+      esbuild:
+        specifier: 0.25.10
+        version: 0.25.10
       next:
         specifier: ^16
         version: 16.1.1(@babel/core@7.26.10)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -253,9 +256,6 @@ importers:
       colorjs.io:
         specifier: 0.5.2
         version: 0.5.2
-      esbuild:
-        specifier: 0.25.10
-        version: 0.25.10
       framer-motion:
         specifier: 12.23.22
         version: 12.23.22(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
