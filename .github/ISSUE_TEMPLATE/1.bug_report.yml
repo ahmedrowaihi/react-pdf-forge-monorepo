@@ -1,0 +1,68 @@
+name: Bug Report
+description: Create a bug report for React PDF Forge
+labels: ['Type: Bug']
+body:
+  - type: input
+    attributes:
+      label: What versions are you using? (if relevant)
+      value: '@ahmedrowaihi/pdf-forge-components@x.y.z, @ahmedrowaihi/pdf-forge-cli@x.y.z, etc.'
+  - type: textarea
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: What is affected (leave empty if unsure)
+      multiple: true
+      options:
+        - 'Preview Server'
+        - 'CLI'
+        - 'Document Component'
+        - 'PageSettings Component'
+        - 'PrintStyles Component'
+        - 'PageBreak Component'
+        - 'Html Component'
+        - 'Head Component'
+        - 'Body Component'
+        - 'Font Component'
+        - 'Render Utility'
+        - '@ahmedrowaihi/pdf-forge-core'
+        - '@ahmedrowaihi/pdf-forge-components package'
+        - '@ahmedrowaihi/pdf-forge-primitive'
+        - '@ahmedrowaihi/pdf-forge-cli'
+        - '@ahmedrowaihi/pdf-forge-preview'
+        - 'npx create-pdf-forge'
+        - 'Demo'
+        - 'Website'
+        - 'Examples'
+  - type: textarea
+    attributes:
+      label: Link to the code that reproduces this issue
+      value: |
+        A link to a GitHub repository minimal reproduction. Not your entire project, just the code necessary to reproduce the issue. Try going from the starter `npx create-pdf-forge@latest` and adding only what's needed to cause the issue. If you don't share a reproduction, we might close the issue or it will take significantly longer for things to get sorted out.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: To Reproduce
+      value: Steps to reproduce the behavior, please provide a clear description of how to reproduce the issue, based on the linked minimal reproduction. Screenshots can be provided in the issue body below. If using code blocks, make sure that [syntax highlighting is correct](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks#syntax-highlighting) and double check that the rendered preview is not broken.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: Before posting the issue go through the steps you've written down to make sure the steps provided are detailed and clear.
+  - type: markdown
+    attributes:
+      value: Contributors should be able to follow the steps provided in order to reproduce the bug.
+  - type: input
+    attributes:
+      label: What's your node version? (if relevant)
+      description: 'Please specify the exact version.'

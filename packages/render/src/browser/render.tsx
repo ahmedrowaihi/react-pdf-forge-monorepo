@@ -1,0 +1,41 @@
+import { Suspense } from 'react';
+import { pretty, toPlainText } from '../node';
+import type { Options } from '../shared/options';
+import { readStream } from '../shared/read-stream.browser';
+
+export const render = async (node: React.ReactNode, options?: Options) => {
+  const suspendedElement = <Suspense>{node}</Suspense>;
+  const reactDOMServer = await import('react-dom/server').then((m) => {
+    if ('default' in m) {
+      return m.default;
+    }
+    return m;
+  });
+
+  const html = await new Promise<string>((resolve, reject) => {
+    reactDOMServer
+      .renderToReadableStream(suspendedElement, {
+        onError(error: unknown) {
+          reject(error as Error);
+        },
+        progressiveChunkSize: Number.POSITIVE_INFINITY,
+      })
+      .then(readStream)
+      .then(resolve)
+      .catch(reject);
+  });
+
+  if (options?.plainText) {
+    return toPlainText(html, options.htmlToTextOptions);
+  }
+
+  const doctype = '<!DOCTYPE html>';
+
+  const document = `${doctype}${html.replace(/<!DOCTYPE.*?>/, '')}`;
+
+  if (options?.pretty) {
+    return pretty(document);
+  }
+
+  return document;
+};

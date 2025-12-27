@@ -1,0 +1,35 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  release:
+    runs-on: buildjet-4vcpu-ubuntu-2204
+    permissions: 
+      contents: write
+      pull-requests: write
+    container:
+      image: node:22
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
+      - run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: pnpm setup
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+      - name: Exit prerelease mode
+        # This step errors if it is not in prerelease mode
+        continue-on-error: true
+        run: pnpm canary:exit
+      - name: Create "version packages" pull request or publish release
+        uses: changesets/action@v1.5.3
+        with:
+          version: pnpm run version
+          publish: pnpm run release
+          title: "chore(root): version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local", "pnpm-lock.yaml"],
+  "globalEnv": [],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "^postbuild"],
+      "outputs": ["dist/**"]
+    },
+    "postbuild": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "@ahmedrowaihi/pdf-forge-preview#build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "demo#build": {
+      "dependsOn": ["^build", "^postbuild"],
+      "outputs": [".react-pdf/**", "!.react-pdf/.next/cache/**"]
+    },
+    "@ahmedrowaihi/pdf-forge-cli#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {},
+    "//#format": {},
+    "//#format:check": {},
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "test:watch": {
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

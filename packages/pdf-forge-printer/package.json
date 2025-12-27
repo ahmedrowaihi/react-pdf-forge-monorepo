@@ -1,0 +1,26 @@
+{
+  "name": "@ahmedrowaihi/pdf-forge-printer",
+  "version": "0.1.0",
+  "description": "Playwright-based PDF and screenshot rendering service",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm,cjs --dts --external playwright",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "playwright": "^1.57.0"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "@types/node": "22.14.1",
+    "tsconfig": "workspace:*",
+    "typescript": "5.9.3",
+    "tsdown": "0.15.12"
+  }
+}

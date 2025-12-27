@@ -1,0 +1,8 @@
+packages:
+  - apps/*
+  - benchmarks/*
+  - packages/*
+  - packages/react-pdf/dev
+  - playground
+
+autoInstallPeers: true

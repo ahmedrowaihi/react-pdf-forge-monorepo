@@ -1,0 +1,8 @@
+node_modules
+.next
+
+# for testing
+static
+!pdfs/.gitkeep
+pdfs
+.env*

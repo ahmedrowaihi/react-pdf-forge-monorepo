@@ -1,0 +1,42 @@
+{
+  "name": "@ahmedrowaihi/pdf-forge-components",
+  "version": "0.1.0",
+  "description": "A collection of all React PDF Render components",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsdown src/index.ts --format esm,cjs --dts --external react",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@ahmedrowaihi/pdf-forge-core": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-primitive": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.0 || ^19.0"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "typescript": "5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

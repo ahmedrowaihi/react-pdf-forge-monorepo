@@ -1,0 +1,21 @@
+{
+  "name": "react-pdf-forge-starter",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "pdf-dev build",
+    "dev": "pdf-dev dev",
+    "export": "pdf-dev export"
+  },
+  "dependencies": {
+    "@ahmedrowaihi/pdf-forge-components": "INSERT_COMPONENTS_VERSION",
+    "react-dom": "^19",
+    "react": "^19"
+  },
+  "devDependencies": {
+    "@ahmedrowaihi/pdf-forge-preview": "INSERT_REACT_PDF_VERSION",
+    "@ahmedrowaihi/pdf-forge-cli": "INSERT_REACT_PDF_VERSION",
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "demo",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pdf-dev build",
+    "dev": "pdf-dev dev",
+    "start": "pdf-dev start",
+    "export": "pdf-dev export"
+  },
+  "dependencies": {
+    "@ahmedrowaihi/pdf-forge-components": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-cli": "workspace:*",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@ahmedrowaihi/pdf-forge-preview": "workspace:*",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "next": "^16"
+  }
+}

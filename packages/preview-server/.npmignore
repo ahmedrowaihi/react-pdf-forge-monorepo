@@ -1,0 +1,5 @@
+.react-pdf
+./pdfs
+./pdfs/static
+node_modules
+.turbo

@@ -1,0 +1,36 @@
+name: Release Canary
+on:
+  push:
+    branches:
+      - canary
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  release:
+    name: release canary
+    runs-on: buildjet-4vcpu-ubuntu-2204
+    permissions:
+      contents: write
+      pull-requests: write
+    container:
+      image: node:22
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
+      - run: git config --global --add safe.directory $GITHUB_WORKSPACE
+      - name: pnpm setup
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+      - name: Install packages
+        run: pnpm install --frozen-lockfile
+      - name: Enter prerelease mode
+        # This step errors if it is already in prerelease mode
+        continue-on-error: true
+        run: pnpm canary:enter
+      - name: Create "version packages" pull request or publish release
+        uses: changesets/action@v1.5.3
+        with:
+          version: pnpm run version
+          publish: pnpm run release
+          title: "chore(root): version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
