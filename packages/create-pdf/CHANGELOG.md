@@ -1,5 +1,11 @@
 # create-pdf-forge
 
+## 1.0.0-canary.2
+
+### Major Changes
+
+- e1e950f: fix build
+
 ## 1.0.0-canary.1
 
 ### Patch Changes
