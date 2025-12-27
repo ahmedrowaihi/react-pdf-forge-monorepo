@@ -98,7 +98,8 @@
       "!**/*.d.ts",
       "!**/out",
       "!**/.turbo",
-      "!**/prism.ts"
+      "!**/prism.ts",
+      "!**/packages/create-pdf/src/tree.js"
     ]
   }
 }
