@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-preview",
-  "version": "1.0.0-canary.4",
+  "version": "1.0.0",
   "description": "A live preview of your PDF templates right in your browser.",
   "scripts": {
     "build": "tsx ./scripts/build-preview-server.mts",

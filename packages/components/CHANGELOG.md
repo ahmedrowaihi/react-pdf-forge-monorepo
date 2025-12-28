@@ -1,5 +1,25 @@
 # @ahmedrowaihi/pdf-forge-components
 
+## 1.0.0
+
+### Major Changes
+
+- 5900266: first push
+- 5c74ca5: PDF Forge first running complete-set
+
+### Patch Changes
+
+- 72a1a1c: fix placeholders
+- bd4acce: fixed dep issues and esbuild
+- 1065ca3: sharp, esbuild, offline assets and watarfall
+- Updated dependencies [5900266]
+- Updated dependencies [5c74ca5]
+- Updated dependencies [72a1a1c]
+- Updated dependencies [bd4acce]
+- Updated dependencies [1065ca3]
+  - @ahmedrowaihi/pdf-forge-primitive@1.0.0
+  - @ahmedrowaihi/pdf-forge-core@1.0.0
+
 ## 1.0.0-canary.4
 
 ### Major Changes
