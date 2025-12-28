@@ -40,6 +40,8 @@ pnpm install @ahmedrowaihi/pdf-forge-components -E
 
 ## Getting started
 
+### Basic Usage
+
 Create a PDF template using React components:
 
 ```jsx
@@ -48,8 +50,8 @@ import {
   PrintStyles,
   Body,
   Heading,
-} from '@ahmedrowaihi/pdf-forge-components';
-import { render } from '@ahmedrowaihi/pdf-forge-core';
+} from "@ahmedrowaihi/pdf-forge-components";
+import { render } from "@ahmedrowaihi/pdf-forge-core";
 
 const PDFTemplate = () => {
   return (
@@ -68,6 +70,85 @@ const PDFTemplate = () => {
 
 const html = await render(<PDFTemplate />);
 ```
+
+### Programmatic PDF Generation
+
+Generate PDFs programmatically in your backend (Node.js, NestJS, Hono, etc.):
+
+```tsx
+import { render } from "@ahmedrowaihi/pdf-forge-core";
+import { PlaywrightPdfService } from "@ahmedrowaihi/pdf-forge-printer";
+import React from "react";
+
+// Your PDF template component
+const InvoiceTemplate = ({ invoice }) => (
+  <Document>
+    <Body>
+      <h1>Invoice #{invoice.id}</h1>
+      <p>Amount: ${invoice.amount}</p>
+    </Body>
+  </Document>
+);
+
+// Generate PDF
+const pdfService = new PlaywrightPdfService();
+const html = await render(React.createElement(InvoiceTemplate, { invoice }));
+const pdfBuffer = await pdfService.render({
+  html,
+  outputType: "pdf",
+  pdfOptions: {
+    format: "A4",
+    margin: { top: "20mm", right: "20mm", bottom: "20mm", left: "20mm" },
+  },
+});
+```
+
+### Asset Bundling
+
+Automatically bundle fonts and static assets into your PDFs:
+
+```tsx
+import { render } from "@ahmedrowaihi/pdf-forge-core";
+
+const html = await render(React.createElement(MyTemplate), {
+  bundleAssets: {
+    staticDir: "./templates/my-template/static", // Template-specific assets
+    fallbackStaticDir: "./templates/shared/static", // Shared assets
+  },
+});
+```
+
+Assets are automatically:
+
+- Scanned from template and shared directories
+- Converted to base64 data URIs
+- Embedded directly in the HTML
+- Cached for performance
+
+### Preview Server Integration
+
+Embed the preview server into any framework that supports Web Request/Response. The preview handler utility starts a Next.js preview server and proxies requests to it:
+
+```tsx
+// See apps/hono/src/utils/preview-server.ts for the implementation
+import { createPreviewHandler } from "./utils/preview-server";
+import { Hono } from "hono";
+
+const app = new Hono();
+
+// Create preview handler
+const previewHandler = await createPreviewHandler({
+  templatesDir: "./templates",
+  baseRoute: "/preview",
+});
+
+// Register with your framework
+app.all("*", async (c) => previewHandler(c.req.raw));
+
+// Now visit http://localhost:3000/preview to browse templates
+```
+
+See the [Hono example](./apps/hono) for a complete implementation with the preview handler utility.
 
 ## Components
 
@@ -100,6 +181,26 @@ npx pdf-dev export
 2. Use `pdf-dev dev` to preview templates in the browser
 3. Export templates with `pdf-dev export`
 4. Use the rendered HTML with a PDF generation library (e.g., Playwright, Puppeteer)
+
+## Examples
+
+### Hono Example
+
+A complete example showing PDF generation and preview server integration with Hono:
+
+```bash
+cd apps/hono
+pnpm install
+pnpm dev
+```
+
+Visit `http://localhost:3000` to see:
+
+- PDF generation endpoints (`GET /pdf`, `POST /pdf`)
+- Preview server at `/preview` to browse templates
+- Custom PDF generation with form data
+
+See [apps/hono/README.md](./apps/hono/README.md) for full documentation.
 
 ## Contributing
 

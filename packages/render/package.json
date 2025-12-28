@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-core",
-  "version": "1.0.0",
+  "version": "1.1.0-canary.0",
   "description": "Transform React components into HTML for PDF generation",
   "sideEffects": false,
   "main": "./dist/browser/index.js",
@@ -125,6 +125,7 @@
     "@types/html-to-text": "9.0.4",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0",
+    "@types/node": "22.14.1",
     "jsdom": "26.1.0",
     "tsconfig": "workspace:*",
     "typescript": "5.8.3"

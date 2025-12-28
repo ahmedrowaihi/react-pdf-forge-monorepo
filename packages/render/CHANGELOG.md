@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-core
 
+## 1.1.0-canary.0
+
+### Minor Changes
+
+- 1ad4616: support shared assets and cache registry
+
 ## 1.0.0
 
 ### Major Changes
