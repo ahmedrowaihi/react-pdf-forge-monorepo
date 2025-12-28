@@ -1,5 +1,11 @@
 # tsconfig
 
+## 1.0.0-canary.3
+
+### Patch Changes
+
+- bd4acce: fixed dep issues and esbuild
+
 ## 1.0.0-canary.2
 
 ### Patch Changes

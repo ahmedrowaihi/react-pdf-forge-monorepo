@@ -1,6 +1,6 @@
 {
   "name": "create-pdf-forge",
-  "version": "1.0.0-canary.4",
+  "version": "1.0.0-canary.5",
   "description": "The easiest way to get started with React PDF",
   "main": "src/index.js",
   "type": "module",

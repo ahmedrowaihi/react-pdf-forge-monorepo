@@ -1,5 +1,13 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 1.0.0-canary.3
+
+### Patch Changes
+
+- bd4acce: fixed dep issues and esbuild
+- Updated dependencies [bd4acce]
+  - @ahmedrowaihi/pdf-forge-printer@1.0.0-canary.3
+
 ## 1.0.0-canary.2
 
 ### Patch Changes
