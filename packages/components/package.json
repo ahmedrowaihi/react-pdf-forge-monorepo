@@ -36,6 +36,18 @@
     "tsconfig": "workspace:*",
     "typescript": "5.9.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "directory": "packages/components"
+  },
+  "keywords": [
+    "react",
+    "pdf"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "publishConfig": {
     "access": "public"
   }

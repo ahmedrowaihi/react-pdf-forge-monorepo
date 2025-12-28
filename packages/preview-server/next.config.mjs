@@ -2,7 +2,19 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  serverExternalPackages: ['esbuild', 'sharp'],
+  serverExternalPackages: ['esbuild', 'playwright', 'playwright-core', 'sharp'],
+  // Exclude playwright and sharp native assets from output file tracing
+  // These packages contain non-ECMAScript assets (fonts, binaries, etc.) that can't be bundled
+  outputFileTracingExcludes: {
+    '*': [
+      '**/node_modules/esbuild/**',
+      '**/node_modules/playwright/**',
+      '**/node_modules/playwright-core/**',
+      '**/node_modules/@playwright/**',
+      '**/node_modules/sharp/**',
+      '**/node_modules/**/sharp/**',
+    ],
+  },
   // Noticed an issue with typescript transpilation when going from Next 14.1.1 to 14.1.2
   // and I narrowed that down into this PR https://github.com/vercel/next.js/pull/62005
   //

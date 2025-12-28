@@ -1,0 +1,16 @@
+services:
+  verdaccio:
+    image: verdaccio/verdaccio:latest
+    container_name: pdf-forge-local-registry
+    ports:
+      - "4873:4873"
+    volumes:
+      - ./.verdaccio/config.yaml:/verdaccio/conf/config.yaml:ro
+    environment:
+      - VERDACCIO_PROTOCOL=http
+    networks:
+      - test-network
+
+networks:
+  test-network:
+    driver: bridge
