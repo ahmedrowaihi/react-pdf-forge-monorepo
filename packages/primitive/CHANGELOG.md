@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-primitive
 
+## 1.0.0-canary.4
+
+### Major Changes
+
+- 8d85e61: v1
+
 ## 1.0.0-canary.3
 
 ### Patch Changes

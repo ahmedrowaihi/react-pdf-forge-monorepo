@@ -1,5 +1,11 @@
 # create-pdf-forge
 
+## 1.0.0-canary.6
+
+### Major Changes
+
+- 8d85e61: v1
+
 ## 1.0.0-canary.5
 
 ### Patch Changes
