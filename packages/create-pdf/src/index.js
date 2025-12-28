@@ -66,17 +66,26 @@ const init = async (name, { tag }) => {
     './package.json',
   );
   const templatePackageJson = fse.readFileSync(templatePackageJsonPath, 'utf8');
+
+  const componentsVersion = await getLatestVersionOfTag(
+    '@ahmedrowaihi/pdf-forge-components',
+    tag,
+  );
+  const cliVersion = await getLatestVersionOfTag(
+    '@ahmedrowaihi/pdf-forge-cli',
+    tag,
+  );
+  const previewVersion = await getLatestVersionOfTag(
+    '@ahmedrowaihi/pdf-forge-preview',
+    tag,
+  );
+
   fse.writeFileSync(
     templatePackageJsonPath,
     templatePackageJson
-      .replace(
-        'INSERT_COMPONENTS_VERSION',
-        await getLatestVersionOfTag('@ahmedrowaihi/pdf-forge-components', tag),
-      )
-      .replaceAll(
-        'INSERT_REACT_PDF_VERSION',
-        await getLatestVersionOfTag('@ahmedrowaihi/pdf-forge-cli', tag),
-      ),
+      .replace('INSERT_COMPONENTS_VERSION', componentsVersion)
+      .replace('INSERT_CLI_VERSION', cliVersion)
+      .replace('INSERT_PREVIEW_VERSION', previewVersion),
     'utf8',
   );
 

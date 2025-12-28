@@ -5,6 +5,7 @@
   "scripts": {
     "build": "pdf-dev build",
     "dev": "pdf-dev dev",
+    "start": "pdf-dev start",
     "export": "pdf-dev export"
   },
   "dependencies": {
@@ -13,8 +14,8 @@
     "react": "^19"
   },
   "devDependencies": {
-    "@ahmedrowaihi/pdf-forge-preview": "INSERT_REACT_PDF_VERSION",
-    "@ahmedrowaihi/pdf-forge-cli": "INSERT_REACT_PDF_VERSION",
+    "@ahmedrowaihi/pdf-forge-preview": "INSERT_PREVIEW_VERSION",
+    "@ahmedrowaihi/pdf-forge-cli": "INSERT_CLI_VERSION",
     "@types/react": "^19",
     "@types/react-dom": "^19"
   }

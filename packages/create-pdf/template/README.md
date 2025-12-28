@@ -22,9 +22,18 @@ This is a starter template for React PDF Render.
    npm run dev
    # or
    yarn dev
+   # or
+   bun dev
    ```
 
 3. Open http://localhost:3000 in your browser
+
+## Available Scripts
+
+- `pnpm dev` - Start the development server with live reload
+- `pnpm build` - Build the preview server for production
+- `pnpm start` - Start the production preview server (after build)
+- `pnpm export` - Export all templates as HTML files to the `out` directory
 
 ## Creating Templates
 
