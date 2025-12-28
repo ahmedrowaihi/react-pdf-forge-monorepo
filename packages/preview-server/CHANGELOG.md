@@ -1,5 +1,13 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 1.0.0-canary.2
+
+### Patch Changes
+
+- 72a1a1c: fix placeholders
+- Updated dependencies [72a1a1c]
+  - @ahmedrowaihi/pdf-forge-printer@1.0.0-canary.2
+
 ## 1.0.0-canary.1
 
 ### Patch Changes

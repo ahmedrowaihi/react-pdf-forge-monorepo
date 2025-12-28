@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-primitive
 
+## 1.0.0-canary.2
+
+### Patch Changes
+
+- 72a1a1c: fix placeholders
+
 ## 1.0.0-canary.1
 
 ### Patch Changes

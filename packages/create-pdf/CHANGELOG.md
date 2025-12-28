@@ -1,5 +1,11 @@
 # create-pdf-forge
 
+## 1.0.0-canary.4
+
+### Patch Changes
+
+- 72a1a1c: fix placeholders
+
 ## 1.0.0-canary.3
 
 ### Patch Changes

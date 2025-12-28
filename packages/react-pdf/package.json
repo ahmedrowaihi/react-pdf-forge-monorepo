@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-cli",
-  "version": "1.0.0-canary.1",
+  "version": "1.0.0-canary.2",
   "description": "A live preview of your PDF templates right in your browser.",
   "bin": {
     "pdf-dev": "./dist/index.js"

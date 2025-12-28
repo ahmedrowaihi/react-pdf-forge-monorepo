@@ -1,5 +1,14 @@
 # @ahmedrowaihi/pdf-forge-components
 
+## 1.0.0-canary.2
+
+### Patch Changes
+
+- 72a1a1c: fix placeholders
+- Updated dependencies [72a1a1c]
+  - @ahmedrowaihi/pdf-forge-primitive@1.0.0-canary.2
+  - @ahmedrowaihi/pdf-forge-core@1.0.0-canary.2
+
 ## 1.0.0-canary.1
 
 ### Patch Changes
