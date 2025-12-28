@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-primitive",
-  "version": "1.0.0-canary.0",
+  "version": "1.0.0-canary.1",
   "description": "Primitive components for PDF generation: Html, Head, Body, Font, Document, PrintStyles, PageBreak, Theme",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
