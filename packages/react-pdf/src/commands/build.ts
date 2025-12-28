@@ -150,7 +150,9 @@ const updatePackageJson = async (builtPreviewAppPath: string) => {
     packageJson.devDependencies[dependency] = version.replace('workspace:', '');
   }
 
+  // esbuild will resolve them from the user's project via args.resolveDir
   delete packageJson.devDependencies['@ahmedrowaihi/pdf-forge-components'];
+  delete packageJson.devDependencies['@ahmedrowaihi/pdf-forge-core'];
   delete packageJson.scripts.prepare;
 
   await fs.promises.writeFile(

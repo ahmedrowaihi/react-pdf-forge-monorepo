@@ -1,13 +1,23 @@
 'use server';
 
-import { PlaywrightPdfService } from '@ahmedrowaihi/pdf-forge-printer';
+import type { PlaywrightPdfService } from '@ahmedrowaihi/pdf-forge-printer';
 import { z } from 'zod';
 import { getAssetRegistry } from '../utils/asset-registry';
 import { getTemplatePathFromSlug } from './get-template-path-from-slug';
 import { renderTemplateByPath } from './render-template-by-path';
 import { baseActionClient } from './safe-action';
 
-const pdfService = new PlaywrightPdfService();
+let pdfService: PlaywrightPdfService | null = null;
+
+async function getPdfService() {
+  if (!pdfService) {
+    const { PlaywrightPdfService } = await import(
+      '@ahmedrowaihi/pdf-forge-printer'
+    );
+    pdfService = new PlaywrightPdfService();
+  }
+  return pdfService;
+}
 
 /**
  * Process HTML to replace relative asset URLs with base64 data URIs using asset registry
@@ -126,14 +136,16 @@ export const exportSingleTemplate = baseActionClient
       let mimeType: string;
 
       if (parsedInput.format === 'pdf') {
-        buffer = await pdfService.render({
+        const service = await getPdfService();
+        buffer = await service.render({
           html,
           outputType: 'pdf',
           darkMode: parsedInput.darkMode,
         });
         mimeType = 'application/pdf';
       } else {
-        buffer = await pdfService.render({
+        const service = await getPdfService();
+        buffer = await service.render({
           html,
           outputType: 'screenshot',
           darkMode: parsedInput.darkMode,

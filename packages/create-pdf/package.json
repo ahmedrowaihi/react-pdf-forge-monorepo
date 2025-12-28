@@ -30,9 +30,8 @@
     "create-pdf-forge": "src/index.js"
   },
   "devDependencies": {
-    "@ahmedrowaihi/pdf-forge-components": "workspace:*",
     "nypm": "0.6.0",
-    "react": "^19",
+    "react": "19.0.0",
     "tsconfig": "workspace:*",
     "typescript": "5.8.3"
   }

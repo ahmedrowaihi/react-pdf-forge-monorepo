@@ -97,9 +97,7 @@
   "scripts": {
     "build": "tsdown",
     "build:watch": "tsdown --watch",
-    "clean": "rm -rf dist",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",

@@ -45,7 +45,6 @@ export const getTemplateComponent = async (
       plugins: [renderingUtilitiesExporter([templatePath])],
       platform: 'node',
       write: false,
-
       jsxDev: true,
       jsxImportSource: jsxRuntimePath,
 

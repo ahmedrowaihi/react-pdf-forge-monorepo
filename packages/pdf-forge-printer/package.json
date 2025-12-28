@@ -21,7 +21,23 @@
   "devDependencies": {
     "@types/node": "22.14.1",
     "tsconfig": "workspace:*",
-    "typescript": "5.9.3",
-    "tsdown": "0.15.12"
+    "tsdown": "0.15.12",
+    "typescript": "5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "directory": "packages/pdf-forge-printer"
+  },
+  "keywords": [
+    "react",
+    "pdf",
+    "playwright"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

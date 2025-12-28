@@ -16,9 +16,11 @@ const packageJson = JSON.parse(
 );
 
 const getLatestVersionOfTag = async (packageName, tag) => {
-  const response = await fetch(
-    `https://registry.npmjs.org/${packageName}/${tag}`,
-  );
+  // Use NPM_CONFIG_REGISTRY or default to npm registry
+  const registry =
+    process.env.NPM_CONFIG_REGISTRY || 'https://registry.npmjs.org';
+  const registryUrl = registry.replace(/\/$/, ''); // Remove trailing slash
+  const response = await fetch(`${registryUrl}/${packageName}/${tag}`);
   const data = await response.json();
 
   if (typeof data === 'string' && data.startsWith('version not found')) {
