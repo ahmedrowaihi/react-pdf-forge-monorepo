@@ -1,5 +1,11 @@
 # create-pdf-forge
 
+## 1.0.0-canary.5
+
+### Patch Changes
+
+- bd4acce: fixed dep issues and esbuild
+
 ## 1.0.0-canary.4
 
 ### Patch Changes
