@@ -1,12 +1,85 @@
 import { access } from 'node:fs/promises';
-import { type Browser, chromium } from 'playwright';
+import {
+  type Browser,
+  type BrowserContextOptions,
+  type Page,
+  chromium,
+} from 'playwright';
+import type { PageScreenshotOptions } from 'playwright';
+import sharp, { type ResizeOptions } from 'sharp';
 import type { PdfLogger } from './logger';
 import { ConsoleLogger } from './logger';
+
+type PDFOptions = Parameters<Page['pdf']>[0];
+
+export interface RenderContextOptions {
+  viewport?: {
+    width: number;
+    height: number;
+  };
+  deviceScaleFactor?: number;
+  locale?: string;
+  colorScheme?: 'light' | 'dark';
+  isMobile?: boolean;
+  hasTouch?: boolean;
+  reducedMotion?: 'reduce' | 'no-preference';
+  bypassCSP?: boolean;
+}
+
+export interface RenderScreenshotOptions {
+  fullPage?: boolean;
+  type?: 'png' | 'jpeg';
+  quality?: number;
+  scale?: 'css' | 'device';
+  animations?: 'disabled' | 'allow';
+  caret?: 'hide' | 'initial';
+  omitBackground?: boolean;
+  clip?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+}
+
+export interface RenderPdfOptions {
+  format?: 'A4' | 'Letter' | 'Legal' | 'Tabloid' | 'Ledger';
+  width?: number;
+  height?: number;
+  printBackground?: boolean;
+  preferCSSPageSize?: boolean;
+  displayHeaderFooter?: boolean;
+  headerTemplate?: string;
+  footerTemplate?: string;
+  outline?: boolean;
+  scale?: number;
+  margin?: {
+    top?: string;
+    right?: string;
+    bottom?: string;
+    left?: string;
+  };
+}
 
 // A4 dimensions in pixels at 96 DPI (standard web resolution)
 // A4 = 210mm × 297mm = 8.27" × 11.69" = 794px × 1123px at 96 DPI
 const A4_WIDTH = 794;
 const A4_HEIGHT = 1123;
+
+async function upscaleImage(
+  inputBuffer: Buffer,
+  resizeOptions?: ResizeOptions,
+): Promise<Buffer> {
+  const defaultOptions: ResizeOptions = {
+    width: 1920,
+    kernel: 'lanczos3' as const,
+    fastShrinkOnLoad: false,
+  };
+
+  return await sharp(inputBuffer)
+    .resize(resizeOptions ?? defaultOptions)
+    .toBuffer();
+}
 
 export class PlaywrightPdfService {
   private readonly logger: PdfLogger;
@@ -51,25 +124,46 @@ export class PlaywrightPdfService {
     url?: string;
     outputType: 'pdf' | 'screenshot';
     darkMode?: boolean;
+    contextOptions?: Partial<RenderContextOptions>;
+    screenshotOptions?: Partial<RenderScreenshotOptions>;
+    pdfOptions?: Partial<RenderPdfOptions>;
+    sharpResizeOptions?: ResizeOptions;
   }): Promise<Uint8Array> {
     let browser: Browser | null = null;
 
     try {
       browser = await this.launchBrowser();
 
-      const context = await browser.newContext({
+      const defaultContextOptions: RenderContextOptions = {
         colorScheme: input.darkMode ? 'dark' : 'light',
         locale: 'en-US',
         reducedMotion: 'reduce',
         viewport: { width: A4_WIDTH, height: A4_HEIGHT },
-        // Mobile and touch settings
         isMobile: false,
         hasTouch: false,
-        // Best quality with device scale factor
-        deviceScaleFactor: 2, // High DPI for crisp rendering
-        // Bypass CSP
+        deviceScaleFactor: 2,
         bypassCSP: true,
-      });
+      };
+
+      const mergedContextOptions: RenderContextOptions = {
+        ...defaultContextOptions,
+        ...input.contextOptions,
+        viewport:
+          input.contextOptions?.viewport ?? defaultContextOptions.viewport,
+      };
+
+      const playwrightContextOptions: BrowserContextOptions = {
+        colorScheme: mergedContextOptions.colorScheme,
+        locale: mergedContextOptions.locale,
+        reducedMotion: mergedContextOptions.reducedMotion,
+        viewport: mergedContextOptions.viewport,
+        isMobile: mergedContextOptions.isMobile,
+        hasTouch: mergedContextOptions.hasTouch,
+        deviceScaleFactor: mergedContextOptions.deviceScaleFactor,
+        bypassCSP: mergedContextOptions.bypassCSP,
+      };
+
+      const context = await browser.newContext(playwrightContextOptions);
 
       const page = await context.newPage();
 
@@ -87,19 +181,15 @@ export class PlaywrightPdfService {
           waitUntil: 'load',
           timeout: 60000,
         });
-        // Wait for network to be idle to ensure all resources are loaded
         await page.waitForLoadState('networkidle', { timeout: 60000 });
       } else if (input.html) {
         await page.setContent(input.html, {
           waitUntil: 'load',
           timeout: 60000,
         });
-        // Wait for network to be idle (for any resources in the HTML)
         await page.waitForLoadState('networkidle', { timeout: 60000 });
       }
 
-      // Apply dark mode class for Theme component system
-      // (Playwright's colorScheme already handles @media (prefers-color-scheme: dark))
       if (input.darkMode) {
         await page.evaluate(() => {
           document.documentElement.classList.add('dark');
@@ -107,7 +197,6 @@ export class PlaywrightPdfService {
         });
       }
 
-      // For PDF generation, emulate print media to apply @media print styles
       if (input.outputType === 'pdf') {
         await page.emulateMedia({ media: 'print' });
       }
@@ -115,17 +204,47 @@ export class PlaywrightPdfService {
       this.logger.log(`Page content loaded, generating ${input.outputType}...`);
 
       if (input.outputType === 'screenshot') {
-        const screenshotBuffer = await page.screenshot({
+        const defaultScreenshotOptions: RenderScreenshotOptions = {
           fullPage: true,
           type: 'png',
           scale: 'css',
           animations: 'disabled',
           caret: 'hide',
-          omitBackground: true, // Transparent background
-        });
+          omitBackground: true,
+        };
+
+        const mergedScreenshotOptions: RenderScreenshotOptions = {
+          ...defaultScreenshotOptions,
+          ...input.screenshotOptions,
+        };
+
+        const playwrightScreenshotOptions: PageScreenshotOptions = {
+          fullPage: mergedScreenshotOptions.fullPage,
+          type: mergedScreenshotOptions.type,
+          quality: mergedScreenshotOptions.quality,
+          scale: mergedScreenshotOptions.scale,
+          animations: mergedScreenshotOptions.animations,
+          caret: mergedScreenshotOptions.caret,
+          omitBackground: mergedScreenshotOptions.omitBackground,
+          clip: mergedScreenshotOptions.clip,
+        };
+
+        const screenshotBuffer = await page.screenshot(
+          playwrightScreenshotOptions,
+        );
+
+        if (input.sharpResizeOptions) {
+          const upscaledBuffer = await upscaleImage(
+            Buffer.from(screenshotBuffer),
+            input.sharpResizeOptions,
+          );
+          return new Uint8Array(upscaledBuffer);
+        }
+
         return new Uint8Array(screenshotBuffer);
       }
-      const pdfBuffer = await page.pdf({
+
+      const defaultPdfOptions: RenderPdfOptions = {
         format: 'A4',
         printBackground: true,
         preferCSSPageSize: true,
@@ -138,7 +257,29 @@ export class PlaywrightPdfService {
           bottom: '0px',
           left: '0px',
         },
-      });
+      };
+
+      const mergedPdfOptions: RenderPdfOptions = {
+        ...defaultPdfOptions,
+        ...input.pdfOptions,
+        margin: input.pdfOptions?.margin ?? defaultPdfOptions.margin,
+      };
+
+      const playwrightPdfOptions: PDFOptions = {
+        format: mergedPdfOptions.format,
+        width: mergedPdfOptions.width,
+        height: mergedPdfOptions.height,
+        printBackground: mergedPdfOptions.printBackground,
+        preferCSSPageSize: mergedPdfOptions.preferCSSPageSize,
+        displayHeaderFooter: mergedPdfOptions.displayHeaderFooter,
+        headerTemplate: mergedPdfOptions.headerTemplate,
+        footerTemplate: mergedPdfOptions.footerTemplate,
+        outline: mergedPdfOptions.outline,
+        scale: mergedPdfOptions.scale,
+        margin: mergedPdfOptions.margin,
+      };
+
+      const pdfBuffer = await page.pdf(playwrightPdfOptions);
       return new Uint8Array(pdfBuffer);
     } catch (error) {
       this.logger.error('Playwright error:', error);
