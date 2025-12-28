@@ -91,6 +91,58 @@ importers:
         specifier: ^16
         version: 16.1.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
 
+  apps/hono:
+    dependencies:
+      '@ahmedrowaihi/pdf-forge-components':
+        specifier: workspace:*
+        version: link:../../packages/components
+      '@ahmedrowaihi/pdf-forge-core':
+        specifier: workspace:*
+        version: link:../../packages/render
+      '@ahmedrowaihi/pdf-forge-preview':
+        specifier: workspace:*
+        version: link:../../packages/preview-server
+      '@ahmedrowaihi/pdf-forge-printer':
+        specifier: workspace:*
+        version: link:../../packages/pdf-forge-printer
+      '@hono/node-server':
+        specifier: ^1.8.0
+        version: 1.19.7(hono@4.11.3)
+      esbuild:
+        specifier: 0.25.10
+        version: 0.25.10
+      hono:
+        specifier: ^4.0.0
+        version: 4.11.3
+      next:
+        specifier: ^16.1.1
+        version: 16.1.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      playwright:
+        specifier: ^1.57.0
+        version: 1.57.0
+      react:
+        specifier: ^19
+        version: 19.2.3
+      react-dom:
+        specifier: ^19
+        version: 19.2.3(react@19.2.3)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.14.1
+      '@types/react':
+        specifier: ^19
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.2.3(@types/react@19.2.7)
+      tsx:
+        specifier: ^4.7.0
+        version: 4.21.0
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+
   packages/components:
     dependencies:
       '@ahmedrowaihi/pdf-forge-core':
@@ -1051,6 +1103,12 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@hono/node-server@1.19.7':
+    resolution: {integrity: sha512-vUcD0uauS7EU2caukW8z5lJKtoGMokxNbJtBiwHgpqxEXokaHCBkQUmCHhjFB1VUTWdqj25QoMkMKzgjq+uhrw==}
+    engines: {node: '>=18.14.1'}
+    peerDependencies:
+      hono: ^4
 
   '@img/colour@1.0.0':
     resolution: {integrity: sha512-A5P/LfWGFSl6nsckYtjw9da+19jB8hkJ6ACTGcDfEJ0aE+l2n2El7dsVM7UVHZQ9s2lmYMWlrS21YLy2IR1LUw==}
@@ -2946,6 +3004,10 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
+  hono@4.11.3:
+    resolution: {integrity: sha512-PmQi306+M/ct/m5s66Hrg+adPnkD5jiO6IjA7WhWw0gSBSo1EcRegwuI1deZ+wd5pzCGynCcn2DprnE4/yEV4w==}
+    engines: {node: '>=16.9.0'}
+
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
 
@@ -4837,6 +4899,10 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
+  '@hono/node-server@1.19.7(hono@4.11.3)':
+    dependencies:
+      hono: 4.11.3
+
   '@img/colour@1.0.0': {}
 
   '@img/sharp-darwin-arm64@0.34.4':
@@ -6564,6 +6630,8 @@ snapshots:
       whatwg-mimetype: 3.0.0
 
   has-flag@4.0.0: {}
+
+  hono@4.11.3: {}
 
   hookable@5.5.3: {}
 
