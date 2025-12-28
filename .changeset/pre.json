@@ -12,5 +12,12 @@
     "@ahmedrowaihi/pdf-forge-core": "0.1.0",
     "tsconfig": "0.0.0"
   },
-  "changesets": ["all-flowers-sink", "fair-tires-kick", "large-peaches-invent"]
+  "changesets": [
+    "all-flowers-sink",
+    "fair-tires-kick",
+    "fluffy-baths-lick",
+    "forty-weeks-allow",
+    "large-peaches-invent",
+    "thin-drinks-attend"
+  ]
 }

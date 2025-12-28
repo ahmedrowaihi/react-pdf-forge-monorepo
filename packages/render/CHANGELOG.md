@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-core
 
+## 1.0.0-canary.1
+
+### Patch Changes
+
+- 1065ca3: sharp, esbuild, offline assets and watarfall
+
 ## 1.0.0-canary.0
 
 ### Major Changes

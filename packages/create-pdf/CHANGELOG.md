@@ -1,5 +1,11 @@
 # create-pdf-forge
 
+## 1.0.0-canary.3
+
+### Patch Changes
+
+- 1065ca3: sharp, esbuild, offline assets and watarfall
+
 ## 1.0.0-canary.2
 
 ### Major Changes

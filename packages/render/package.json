@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-core",
-  "version": "1.0.0-canary.0",
+  "version": "1.0.0-canary.1",
   "description": "Transform React components into HTML for PDF generation",
   "sideEffects": false,
   "main": "./dist/browser/index.js",
