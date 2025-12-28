@@ -1,5 +1,12 @@
 # @ahmedrowaihi/pdf-forge-components
 
+## 1.0.1-canary.0
+
+### Patch Changes
+
+- Updated dependencies [1ad4616]
+  - @ahmedrowaihi/pdf-forge-core@1.1.0-canary.0
+
 ## 1.0.0
 
 ### Major Changes
