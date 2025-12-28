@@ -28,7 +28,8 @@ interface PreviewProps extends React.ComponentProps<'div'> {
 }
 
 const Preview = ({ templateTitle, className, ...props }: PreviewProps) => {
-  const { renderingResult, renderedTemplateMetadata } = usePreviewContext();
+  const { renderingResult, renderedTemplateMetadata, templateSlug } =
+    usePreviewContext();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -132,8 +133,7 @@ const Preview = ({ templateTitle, className, ...props }: PreviewProps) => {
         {hasRenderingMetadata ? (
           <div className="flex justify-end">
             <DownloadButton
-              templateSlug={templateTitle}
-              htmlMarkup={renderedTemplateMetadata.markup}
+              templateSlug={templateSlug}
               darkMode={isDarkModeEnabled}
             />
           </div>

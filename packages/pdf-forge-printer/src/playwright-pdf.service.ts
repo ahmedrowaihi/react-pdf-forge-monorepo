@@ -1,11 +1,11 @@
 import { access } from 'node:fs/promises';
+import type { PageScreenshotOptions } from 'playwright';
 import {
   type Browser,
   type BrowserContextOptions,
-  type Page,
   chromium,
+  type Page,
 } from 'playwright';
-import type { PageScreenshotOptions } from 'playwright';
 import sharp, { type ResizeOptions } from 'sharp';
 import type { PdfLogger } from './logger';
 import { ConsoleLogger } from './logger';

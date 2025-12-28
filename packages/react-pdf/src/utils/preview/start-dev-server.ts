@@ -60,8 +60,14 @@ export const startDevServer = async (
     res.setHeader('Expires', '-1');
 
     try {
+      const pathname = parsedUrl.pathname || '';
+      const hasFileExtension = /\.[^/]+$/.test(pathname);
+      const isStaticFileRequest =
+        pathname.startsWith('/static') || hasFileExtension;
+
       if (
         parsedUrl.path &&
+        isStaticFileRequest &&
         !parsedUrl.path.startsWith('/preview/') &&
         !parsedUrl.path.startsWith('/api/') &&
         !parsedUrl.path.includes('_next/')

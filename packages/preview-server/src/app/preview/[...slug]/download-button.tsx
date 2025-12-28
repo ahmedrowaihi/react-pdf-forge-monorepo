@@ -10,7 +10,6 @@ import { cn } from '../../../utils';
 
 interface DownloadButtonProps {
   templateSlug: string;
-  htmlMarkup: string;
   darkMode?: boolean;
 }
 
@@ -18,13 +17,10 @@ type ExportFormat = 'pdf' | 'screenshot';
 
 export const DownloadButton = ({
   templateSlug,
-  htmlMarkup,
   darkMode = false,
 }: DownloadButtonProps) => {
   const [isLoadingPdf, setIsLoadingPdf] = useState(false);
   const [isLoadingScreenshot, setIsLoadingScreenshot] = useState(false);
-
-  const templateName = templateSlug.replace(/\.[^/.]+$/, '');
 
   const handleOpen = async (format: ExportFormat) => {
     if (format === 'pdf') {
@@ -35,8 +31,7 @@ export const DownloadButton = ({
 
     try {
       const result = await exportSingleTemplate({
-        name: templateName,
-        html: htmlMarkup,
+        templateSlug,
         format,
         darkMode,
       });
