@@ -442,6 +442,9 @@ importers:
       '@types/html-to-text':
         specifier: 9.0.4
         version: 9.0.4
+      '@types/node':
+        specifier: 22.14.1
+        version: 22.14.1
       '@types/react':
         specifier: ^19
         version: 19.2.7
