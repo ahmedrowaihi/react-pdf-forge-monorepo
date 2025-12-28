@@ -1,5 +1,16 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 1.1.0
+
+### Minor Changes
+
+- 73a7434: programtic render and preview, more example of backend use
+
+### Patch Changes
+
+- Updated dependencies [73a7434]
+  - @ahmedrowaihi/pdf-forge-printer@1.1.0
+
 ## 1.0.0
 
 ### Major Changes

@@ -1,5 +1,11 @@
 # tsconfig
 
+## 1.1.0
+
+### Minor Changes
+
+- 73a7434: programtic render and preview, more example of backend use
+
 ## 1.0.0
 
 ### Major Changes
