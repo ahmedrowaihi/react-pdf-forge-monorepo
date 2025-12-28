@@ -1,5 +1,11 @@
 # create-pdf-forge
 
+## 1.0.0-canary.6
+
+### Major Changes
+
+- 5c74ca5: PDF Forge first running complete-set
+
 ## 1.0.0-canary.5
 
 ### Patch Changes

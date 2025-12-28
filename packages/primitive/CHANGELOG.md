@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-primitive
 
+## 1.0.0-canary.4
+
+### Major Changes
+
+- 5c74ca5: PDF Forge first running complete-set
+
 ## 1.0.0-canary.3
 
 ### Patch Changes
