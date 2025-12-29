@@ -1,5 +1,11 @@
 # tsconfig
 
+## 1.2.0-canary.1
+
+### Patch Changes
+
+- 82187cc: packages lint
+
 ## 1.2.0-canary.0
 
 ### Minor Changes

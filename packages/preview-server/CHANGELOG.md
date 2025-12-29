@@ -1,5 +1,14 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 1.2.0-canary.2
+
+### Patch Changes
+
+- 82187cc: packages lint
+- Updated dependencies [82187cc]
+  - @ahmedrowaihi/pdf-forge-printer@1.2.0-canary.2
+  - @ahmedrowaihi/pdf-forge-toolbox@1.2.0-canary.2
+
 ## 1.2.0-canary.1
 
 ### Patch Changes

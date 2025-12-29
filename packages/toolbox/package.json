@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-toolbox",
-  "version": "1.2.0-canary.1",
+  "version": "1.2.0-canary.2",
   "description": "Shared utilities and tools for PDF Forge packages",
   "type": "module",
   "main": "./dist/index.js",
