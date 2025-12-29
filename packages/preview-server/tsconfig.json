@@ -31,7 +31,8 @@
     "module": "esnext",
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["bun"]
   },
   "include": [
     "next-env.d.ts",
