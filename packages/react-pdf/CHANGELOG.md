@@ -1,5 +1,13 @@
 # @ahmedrowaihi/pdf-forge-cli
 
+## 1.2.0-canary.1
+
+### Patch Changes
+
+- ea6c717: release bun runtime
+- Updated dependencies [ea6c717]
+  - @ahmedrowaihi/pdf-forge-toolbox@1.2.0-canary.1
+
 ## 1.2.0-canary.0
 
 ### Minor Changes

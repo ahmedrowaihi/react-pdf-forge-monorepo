@@ -1,5 +1,17 @@
 # @ahmedrowaihi/pdf-forge-components
 
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- ea6c717: release bun runtime
+
+### Patch Changes
+
+- Updated dependencies [ea6c717]
+  - @ahmedrowaihi/pdf-forge-primitive@1.2.0-canary.0
+  - @ahmedrowaihi/pdf-forge-core@1.2.0-canary.0
+
 ## 1.1.0
 
 ### Minor Changes
