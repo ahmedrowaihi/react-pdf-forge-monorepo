@@ -12,7 +12,8 @@
     "@ahmedrowaihi/pdf-forge-cli": "1.1.0",
     "@ahmedrowaihi/pdf-forge-core": "1.1.0",
     "@ahmedrowaihi/pdf-forge-toolbox": "1.1.0",
-    "tsconfig": "1.1.0"
+    "tsconfig": "1.1.0",
+    "hono-example": "0.0.0"
   },
-  "changesets": ["tender-steaks-drop"]
+  "changesets": ["few-bugs-mate", "tender-steaks-drop"]
 }

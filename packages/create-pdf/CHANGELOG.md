@@ -1,5 +1,11 @@
 # create-pdf-forge
 
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- ea6c717: release bun runtime
+
 ## 1.1.0
 
 ### Minor Changes
