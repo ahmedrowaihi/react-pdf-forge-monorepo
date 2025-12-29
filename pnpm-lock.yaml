@@ -107,10 +107,10 @@ importers:
         version: link:../../packages/pdf-forge-printer
       '@hono/node-server':
         specifier: ^1.8.0
-        version: 1.19.7(hono@4.11.3)
+        version: 1.19.7(hono@1.6.4)
       hono:
-        specifier: ^4.0.0
-        version: 4.11.3
+        specifier: ^1.2.0-canary.0
+        version: 1.6.4
       next:
         specifier: ^16.1.1
         version: 16.1.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -2968,9 +2968,9 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
-  hono@4.11.3:
-    resolution: {integrity: sha512-PmQi306+M/ct/m5s66Hrg+adPnkD5jiO6IjA7WhWw0gSBSo1EcRegwuI1deZ+wd5pzCGynCcn2DprnE4/yEV4w==}
-    engines: {node: '>=16.9.0'}
+  hono@1.6.4:
+    resolution: {integrity: sha512-tYrE+P/bR9mnBpYDLo6pohSQr7rO2QY+S896qqn1Eq3HmFkWLYqAkyzfbCyLQh75lUDOLSWFlsS0kRHt0iUMrA==}
+    engines: {node: '>=11.0.0'}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -4733,9 +4733,9 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@hono/node-server@1.19.7(hono@4.11.3)':
+  '@hono/node-server@1.19.7(hono@1.6.4)':
     dependencies:
-      hono: 4.11.3
+      hono: 1.6.4
 
   '@img/colour@1.0.0': {}
 
@@ -6448,7 +6448,7 @@ snapshots:
 
   has-flag@4.0.0: {}
 
-  hono@4.11.3: {}
+  hono@1.6.4: {}
 
   hookable@5.5.3: {}
 

@@ -1,6 +1,6 @@
 {
   "name": "hono",
-  "version": "1.1.0",
+  "version": "1.2.0-canary.0",
   "description": "PDF Forge Hono Example - Showcase example demonstrating PDF generation and preview capabilities",
   "type": "module",
   "main": "src/index.tsx",
@@ -15,7 +15,7 @@
     "@ahmedrowaihi/pdf-forge-preview": "workspace:*",
     "@ahmedrowaihi/pdf-forge-printer": "workspace:*",
     "@hono/node-server": "^1.8.0",
-    "hono": "^4.0.0",
+    "hono": "^1.2.0-canary.0",
     "next": "^16.1.1",
     "playwright": "^1.57.0",
     "react": "^19.0.0",
