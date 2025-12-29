@@ -2,6 +2,10 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  registerSpinnerAutostopping,
+  styleText,
+} from '@ahmedrowaihi/pdf-forge-toolbox';
 import logSymbols from 'log-symbols';
 import ora, { type Ora } from 'ora';
 import type React from 'react';
@@ -11,8 +15,6 @@ import {
   clearComponentCache,
   getTemplateComponent,
 } from '../utils/get-template-component';
-import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping';
-import { styleText } from '../utils/style-text';
 import type { ErrorObject } from '../utils/types/error-object';
 
 export interface RenderedTemplateMetadata {

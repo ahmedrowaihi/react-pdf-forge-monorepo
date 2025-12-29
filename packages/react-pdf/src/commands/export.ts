@@ -1,21 +1,17 @@
-import fs, { unlinkSync, writeFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
+import fs, { promises as fsPromises, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import url from 'node:url';
 import type { Options } from '@ahmedrowaihi/pdf-forge-core';
-import { type BuildFailure, build } from 'esbuild';
+import {
+  getTemplatesDirectoryMetadata,
+  registerSpinnerAutostopping,
+  type TemplatesDirectory,
+} from '@ahmedrowaihi/pdf-forge-toolbox';
 import { glob } from 'glob';
 import logSymbols from 'log-symbols';
 import normalize from 'normalize-path';
 import ora, { type Ora } from 'ora';
-import type React from 'react';
-import { renderingUtilitiesExporter } from '../utils/esbuild/renderring-utilities-exporter.js';
-import {
-  getTemplatesDirectoryMetadata,
-  type TemplatesDirectory,
-} from '../utils/get-templates-directory-metadata.js';
+import { renderingUtilitiesExporter } from '../utils/bun/rendering-utilities-exporter.js';
 import { tree } from '../utils/index.js';
-import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping.js';
 
 const getTemplatesFromDirectory = (templateDirectory: TemplatesDirectory) => {
   const templatePaths = [] as string[];
@@ -34,12 +30,8 @@ type ExportTemplatesOptions = Options & {
   pretty?: boolean;
 };
 
-const filename = url.fileURLToPath(import.meta.url);
-
-const require = createRequire(filename);
-
 /*
-  This first builds all the templates using esbuild and then puts the output in the `.js`
+  This first builds all the templates using Bun.build() and then puts the output in the `.js`
   files. Then these `.js` files are imported dynamically and rendered to `.html` files
   using the `render` function.
  */
@@ -76,20 +68,78 @@ export const exportTemplates = async (
 
   const allTemplates = getTemplatesFromDirectory(templatesDirectoryMetadata);
 
+  // Get the template directory to determine which files to transform
+  const templateBaseDir = path.resolve(process.cwd(), templatesDirectoryPath);
+
+  // Create asset transformation plugin to embed fonts/images as base64
+  const assetTransformPlugin: Bun.BunPlugin = {
+    name: 'asset-to-import-transform',
+    setup(builder) {
+      builder.onLoad(
+        {
+          filter: /\.(tsx?|jsx?)$/,
+        },
+        async (args) => {
+          const filePath = args.path;
+          // Only transform files within the template directory
+          const isInTemplateDir = filePath.startsWith(templateBaseDir);
+
+          if (!isInTemplateDir) {
+            return undefined;
+          }
+
+          const code = await Bun.file(filePath).text();
+          const { transformAssetsToImports } = await import(
+            '@ahmedrowaihi/pdf-forge-toolbox'
+          );
+          const { code: transformedCode } = await transformAssetsToImports(
+            code,
+            filePath,
+          );
+
+          if (transformedCode !== code) {
+            return {
+              contents: transformedCode,
+              loader: 'tsx',
+            };
+          }
+          return undefined;
+        },
+      );
+    },
+  };
+
   try {
-    await build({
-      bundle: true,
-      entryPoints: allTemplates,
-      format: 'cjs',
-      jsx: 'automatic',
-      loader: { '.js': 'jsx' },
-      logLevel: 'silent',
-      outExtension: { '.js': '.cjs' },
+    const buildResult = await Bun.build({
+      entrypoints: allTemplates,
       outdir: pathToWhereTemplateMarkupShouldBeDumped,
-      platform: 'node',
-      plugins: [renderingUtilitiesExporter(allTemplates)],
-      write: true,
+      target: 'node',
+      format: 'cjs',
+      plugins: [assetTransformPlugin, renderingUtilitiesExporter(allTemplates)],
+      jsx: {
+        runtime: 'automatic',
+        importSource: 'react',
+      },
+      minify: false,
+      sourcemap: 'external',
+      splitting: false,
     });
+
+    if (!buildResult.success) {
+      const errorMessages = buildResult.logs
+        .map((log) => log.message)
+        .join('\n');
+      throw new Error(`Bun build failed: ${errorMessages}`);
+    }
+
+    // Rename .js files to .cjs for CommonJS compatibility
+    const builtFiles = buildResult.outputs.filter((output) =>
+      output.path.endsWith('.js'),
+    );
+    for (const file of builtFiles) {
+      const newPath = file.path.replace(/\.js$/, '.cjs');
+      await fsPromises.rename(file.path, newPath);
+    }
   } catch (exception) {
     if (spinner) {
       spinner.stopAndPersist({
@@ -98,8 +148,8 @@ export const exportTemplates = async (
       });
     }
 
-    const buildFailure = exception as BuildFailure;
-    console.error(`\n${buildFailure.message}`);
+    const error = exception as Error;
+    console.error(`\n${error.message}`);
 
     process.exit(1);
   }
@@ -121,17 +171,21 @@ export const exportTemplates = async (
         spinner.text = `rendering ${template.split('/').pop()}`;
         spinner.render();
       }
-      delete require.cache[template];
-      const templateModule = require(template) as {
-        default: React.FC;
-        render: (
-          element: React.ReactElement,
-          options: Record<string, unknown>,
-        ) => Promise<string>;
-        reactPDFCreateReactElement: typeof React.createElement;
-      };
+
+      const dynamicImport = new Function('path', 'return import(path)');
+      const templateModule = await dynamicImport(`file://${template}`);
+
+      const TemplateComponent = templateModule.default;
+      const previewProps =
+        TemplateComponent && 'PreviewProps' in TemplateComponent
+          ? TemplateComponent.PreviewProps
+          : {};
+
       const rendered = await templateModule.render(
-        templateModule.reactPDFCreateReactElement(templateModule.default, {}),
+        templateModule.reactPDFCreateReactElement(
+          TemplateComponent,
+          previewProps,
+        ),
         options,
       );
       const htmlPath = template.replace(

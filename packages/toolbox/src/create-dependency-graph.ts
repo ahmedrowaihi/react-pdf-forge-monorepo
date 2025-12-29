@@ -338,7 +338,7 @@ export const createDependencyGraph = async (directory: string) => {
           }
         }
 
-        return [...dependentPaths.values()];
+        return Array.from(dependentPaths);
       },
     },
   ] as const;

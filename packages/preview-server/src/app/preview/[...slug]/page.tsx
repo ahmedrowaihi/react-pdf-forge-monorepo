@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { getTemplatesDirectoryMetadata } from '@ahmedrowaihi/pdf-forge-toolbox';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { getTemplatePathFromSlug } from '../../../actions/get-template-path-from-slug';
@@ -6,7 +7,6 @@ import { renderTemplateByPath } from '../../../actions/render-template-by-path';
 import { Shell } from '../../../components/shell';
 import { Toolbar } from '../../../components/toolbar';
 import { PreviewProvider } from '../../../contexts/preview';
-import { getTemplatesDirectoryMetadata } from '../../../utils/get-templates-directory-metadata';
 import { isBuilding, templatesDirectoryAbsolutePath } from '../../env';
 import Preview from './preview';
 

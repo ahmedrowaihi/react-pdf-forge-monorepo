@@ -235,32 +235,6 @@ function findBackgroundImageProperty(
 }
 
 /**
- * Handle style attribute with backgroundImage (collection phase)
- */
-function _handleStyleAttribute(
-  node: t.JSXOpeningElement,
-  templateDir: string,
-  assetReferences: Array<{ srcAttr: t.JSXAttribute; assetPath: string }>,
-): void {
-  const styleAttr = findAttribute(node, 'style');
-  if (!styleAttr) return;
-
-  const bgImage = findBackgroundImageProperty(styleAttr);
-  if (bgImage) {
-    const assetPath = extractAssetPath(
-      {
-        type: 'StringLiteral',
-        value: bgImage.assetPath,
-      } as t.StringLiteral,
-      templateDir,
-    );
-    if (assetPath) {
-      assetReferences.push({ srcAttr: styleAttr, assetPath });
-    }
-  }
-}
-
-/**
  * Transform src attribute to use import name
  */
 function transformSrcAttribute(
@@ -410,7 +384,9 @@ export async function transformAssetsToImports(
   const filePathToImportName = new Map<string, string>();
   const assetPathToImportName = new Map<string, string>();
 
-  for (const [assetPath, resolvedPath] of resolvedAssets) {
+  for (const [assetPath, resolvedPath] of Array.from(
+    resolvedAssets.entries(),
+  )) {
     let importName = filePathToImportName.get(resolvedPath);
     if (!importName) {
       importName = `__asset_${assetCounter++}`;

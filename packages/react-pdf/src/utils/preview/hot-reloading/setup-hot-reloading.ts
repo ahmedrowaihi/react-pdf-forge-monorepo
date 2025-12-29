@@ -1,10 +1,10 @@
 import type http from 'node:http';
 import path from 'node:path';
+import type { HotReloadChange } from '@ahmedrowaihi/pdf-forge-toolbox';
+import { createDependencyGraph } from '@ahmedrowaihi/pdf-forge-toolbox';
 import { watch } from 'chokidar';
 import debounce from 'debounce';
 import { type Socket, Server as SocketServer } from 'socket.io';
-import type { HotReloadChange } from '../../types/hot-reload-change.js';
-import { createDependencyGraph } from './create-dependency-graph.js';
 
 export const setupHotreloading = async (
   devServer: http.Server,
@@ -21,17 +21,13 @@ export const setupHotreloading = async (
     });
   });
 
-  // used to keep track of all changes
-  // and send them at once to the preview app through the web socket
   let changes = [] as HotReloadChange[];
 
   const reload = debounce(() => {
-    // we detect these using the useHotreload hook on the Next app
     clients.forEach((client) => {
       client.emit(
         'reload',
         changes.filter((change) =>
-          // Ensures only changes inside the templates directory are emitted
           path
             .resolve(absolutePathToTemplatesDirectory, change.filename)
             .startsWith(absolutePathToTemplatesDirectory),
@@ -60,8 +56,6 @@ export const setupHotreloading = async (
       path.relative(absolutePathToTemplatesDirectory, p).startsWith('..'),
     );
   let filesOutsideTemplatesDirectory = getFilesOutsideTemplatesDirectory();
-  // adds in to be watched separately all of the files that are outside of
-  // the user's templates directory
   for (const p of filesOutsideTemplatesDirectory) {
     watcher.add(p);
   }
@@ -86,10 +80,6 @@ export const setupHotreloading = async (
 
     const newFilesOutsideTemplatesDirectory =
       getFilesOutsideTemplatesDirectory();
-    // updates the files outside of the user's templates directory by unwatching
-    // the inexistent ones and watching the new ones
-    //
-    // Update watched files outside templates directory to handle dependency changes
     for (const p of filesOutsideTemplatesDirectory) {
       if (!newFilesOutsideTemplatesDirectory.includes(p)) {
         watcher.unwatch(p);
@@ -107,8 +97,6 @@ export const setupHotreloading = async (
       filename: relativePathToChangeTarget,
     });
 
-    // These dependents are dependents resolved recursively, so even dependents of dependents
-    // will be notified of this change so that we ensure that things are updated in the preview.
     for (const dependentPath of resolveDependentsOf(pathToChangeTarget)) {
       changes.push({
         event: 'change' as const,

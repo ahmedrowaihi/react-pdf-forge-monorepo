@@ -1,12 +1,12 @@
 import path from 'node:path';
 import type { render } from '@ahmedrowaihi/pdf-forge-components';
-import type React from 'react';
-import type { RawSourceMap } from 'source-map-js';
-import { convertStackWithSourceMap } from './convert-stack-with-sourcemap';
 import {
   clearTransformCaches,
   transformAssetsToImports,
-} from './transform-assets-to-imports';
+} from '@ahmedrowaihi/pdf-forge-toolbox';
+import type React from 'react';
+import type { RawSourceMap } from 'source-map-js';
+import { convertStackWithSourceMap } from './convert-stack-with-sourcemap';
 import type { ErrorObject } from './types/error-object';
 import type { Template as TemplateComponent } from './types/template';
 

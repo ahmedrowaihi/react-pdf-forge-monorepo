@@ -1,14 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  getTemplatesDirectoryMetadata,
+  registerSpinnerAutostopping,
+  type TemplatesDirectory,
+} from '@ahmedrowaihi/pdf-forge-toolbox';
 import logSymbols from 'log-symbols';
 import { installDependencies, type PackageManagerName, runScript } from 'nypm';
 import ora from 'ora';
 import { getPreviewServerLocation } from '../utils/get-preview-server-location.js';
-import {
-  getTemplatesDirectoryMetadata,
-  type TemplatesDirectory,
-} from '../utils/get-templates-directory-metadata.js';
-import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping.js';
 
 interface Args {
   dir: string;
@@ -34,7 +34,7 @@ const nextConfig = {
     USER_PROJECT_LOCATION: userProjectLocation
   },
   outputFileTracingRoot: previewServerLocation,
-  serverExternalPackages: ['esbuild'],
+  serverExternalPackages: ["playwright", "playwright-core", "sharp"],
   typescript: {
     ignoreBuildErrors: true
   },
@@ -67,7 +67,6 @@ const getTemplateSlugsFromTemplateDirectory = (
       path
         .join(directoryPathRelativeToTemplatesDirectory, filename)
         .split(path.sep)
-        // sometimes it gets empty segments due to trailing slashes
         .filter((segment) => segment.length > 0),
     );
   }
@@ -127,6 +126,67 @@ export function generateStaticParams() {
   );
 };
 
+const findWorkspaceRoot = (startPath: string): string | null => {
+  let currentPath = startPath;
+  while (currentPath !== path.dirname(currentPath)) {
+    const pnpmWorkspace = path.join(currentPath, 'pnpm-workspace.yaml');
+    if (fs.existsSync(pnpmWorkspace)) {
+      return currentPath;
+    }
+    currentPath = path.dirname(currentPath);
+  }
+  return null;
+};
+
+const findWorkspacePackage = (
+  packageName: string,
+  workspaceRoot: string,
+): string | null => {
+  const searchDirs = [
+    path.join(workspaceRoot, 'packages'),
+    path.join(workspaceRoot, 'apps'),
+  ];
+
+  for (const baseDir of searchDirs) {
+    if (!fs.existsSync(baseDir)) {
+      continue;
+    }
+
+    const packageDirs = fs.readdirSync(baseDir, { withFileTypes: true });
+    for (const dirent of packageDirs) {
+      if (dirent.isDirectory()) {
+        const packagePath = path.join(baseDir, dirent.name);
+        const packageJsonPath = path.join(packagePath, 'package.json');
+        if (fs.existsSync(packageJsonPath)) {
+          try {
+            const pkg = JSON.parse(
+              fs.readFileSync(packageJsonPath, 'utf8'),
+            ) as {
+              name: string;
+              main?: string;
+              repository?: { directory?: string };
+            };
+            if (pkg.name === packageName) {
+              if (pkg.main?.includes('dist')) {
+                const distPath = path.join(packagePath, 'dist');
+                if (!fs.existsSync(distPath)) {
+                  console.warn(
+                    `Warning: Package ${packageName} has not been built (dist/ missing). It may need to be built first.`,
+                  );
+                }
+              }
+              return packagePath;
+            }
+          } catch {
+            // Invalid package.json, continue
+          }
+        }
+      }
+    }
+  }
+  return null;
+};
+
 const updatePackageJson = async (builtPreviewAppPath: string) => {
   const packageJsonPath = path.resolve(builtPreviewAppPath, './package.json');
   const packageJson = JSON.parse(
@@ -137,20 +197,72 @@ const updatePackageJson = async (builtPreviewAppPath: string) => {
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
   };
-  // Clean up package.json for preview server
   packageJson.scripts.build = 'next build';
   packageJson.scripts.start = 'next start';
   delete packageJson.scripts.postbuild;
 
   packageJson.name = 'preview-server';
 
+  const workspaceRoot = findWorkspaceRoot(process.cwd());
+
+  if (packageJson.dependencies && workspaceRoot) {
+    for (const [dependency, version] of Object.entries(
+      packageJson.dependencies,
+    )) {
+      if (typeof version === 'string' && version.startsWith('workspace:')) {
+        const packagePath = findWorkspacePackage(dependency, workspaceRoot);
+        if (packagePath) {
+          const packageJsonPath = path.join(packagePath, 'package.json');
+          try {
+            const pkg = JSON.parse(
+              fs.readFileSync(packageJsonPath, 'utf8'),
+            ) as { main?: string };
+            if (pkg.main?.includes('dist')) {
+              const distPath = path.join(packagePath, 'dist');
+              if (!fs.existsSync(distPath)) {
+                throw new Error(
+                  `Package ${dependency} has not been built. Please run 'pnpm build:packages' first.`,
+                );
+              }
+            }
+          } catch (error) {
+            if (error instanceof Error && error.message.includes('built')) {
+              throw error;
+            }
+            // Continue if package.json read fails
+          }
+
+          const normalizedPath = path.resolve(packagePath).replace(/\\/g, '/');
+          packageJson.dependencies[dependency] = `file:${normalizedPath}`;
+        } else {
+          console.warn(
+            `Warning: Could not find workspace package ${dependency}, removing from dependencies.`,
+          );
+          delete packageJson.dependencies[dependency];
+        }
+      }
+    }
+  } else if (packageJson.dependencies && !workspaceRoot) {
+    console.warn(
+      'Warning: Could not find workspace root. Workspace dependencies will be removed.',
+    );
+    // Remove all workspace dependencies if we can't find the workspace
+    for (const [dependency, version] of Object.entries(
+      packageJson.dependencies,
+    )) {
+      if (typeof version === 'string' && version.startsWith('workspace:')) {
+        delete packageJson.dependencies[dependency];
+      }
+    }
+  }
+
   for (const [dependency, version] of Object.entries(
-    packageJson.devDependencies,
+    packageJson.devDependencies || {},
   )) {
     packageJson.devDependencies[dependency] = version.replace('workspace:', '');
   }
 
-  // esbuild will resolve them from the user's project via args.resolveDir
+  // Dependencies will be resolved from the user's project
   delete packageJson.devDependencies['@ahmedrowaihi/pdf-forge-components'];
   delete packageJson.devDependencies['@ahmedrowaihi/pdf-forge-core'];
   delete packageJson.scripts.prepare;
