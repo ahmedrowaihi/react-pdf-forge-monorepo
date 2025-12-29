@@ -4,10 +4,12 @@ import * as stackTraceParser from 'stacktrace-parser';
 
 export const convertStackWithSourceMap = (
   rawStack: string | undefined,
-
   originalFilePath: string,
-  sourceMapToOriginalFile: RawSourceMap,
+  sourceMapToOriginalFile: RawSourceMap | null,
 ): string | undefined => {
+  if (!sourceMapToOriginalFile) {
+    return rawStack;
+  }
   let stack: string | undefined;
 
   const sourceRoot =
@@ -33,6 +35,9 @@ export const convertStackWithSourceMap = (
 
   if (rawStack) {
     const parsedStack = stackTraceParser.parse(rawStack);
+    if (!sourceMapToOriginalFile) {
+      return rawStack;
+    }
     const sourceMapConsumer = new SourceMapConsumer(sourceMapToOriginalFile);
     const newStackLines = [] as string[];
     for (const stackFrame of parsedStack) {

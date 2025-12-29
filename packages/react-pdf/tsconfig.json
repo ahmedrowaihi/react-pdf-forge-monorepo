@@ -31,7 +31,8 @@
     "module": "NodeNext",
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["bun"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["dist", "node_modules"]

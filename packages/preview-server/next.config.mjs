@@ -2,12 +2,11 @@
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  serverExternalPackages: ['esbuild', 'playwright', 'playwright-core', 'sharp'],
+  serverExternalPackages: ['playwright', 'playwright-core', 'sharp'],
   // Exclude playwright and sharp native assets from output file tracing
   // These packages contain non-ECMAScript assets (fonts, binaries, etc.) that can't be bundled
   outputFileTracingExcludes: {
     '*': [
-      '**/node_modules/esbuild/**',
       '**/node_modules/playwright/**',
       '**/node_modules/playwright-core/**',
       '**/node_modules/@playwright/**',

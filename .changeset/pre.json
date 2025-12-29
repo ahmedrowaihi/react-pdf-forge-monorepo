@@ -1,0 +1,18 @@
+{
+  "mode": "pre",
+  "tag": "canary",
+  "initialVersions": {
+    "demo": "0.0.0",
+    "hono": "0.0.0",
+    "@ahmedrowaihi/pdf-forge-components": "1.1.0",
+    "create-pdf-forge": "1.1.0",
+    "@ahmedrowaihi/pdf-forge-printer": "1.1.0",
+    "@ahmedrowaihi/pdf-forge-preview": "1.1.0",
+    "@ahmedrowaihi/pdf-forge-primitive": "1.1.0",
+    "@ahmedrowaihi/pdf-forge-cli": "1.1.0",
+    "@ahmedrowaihi/pdf-forge-core": "1.1.0",
+    "@ahmedrowaihi/pdf-forge-toolbox": "1.1.0",
+    "tsconfig": "1.1.0"
+  },
+  "changesets": ["tender-steaks-drop"]
+}

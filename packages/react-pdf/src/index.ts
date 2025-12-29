@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 import { program } from 'commander';
 import { build } from './commands/build.js';
 import { dev } from './commands/dev.js';

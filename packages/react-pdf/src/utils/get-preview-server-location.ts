@@ -1,7 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import url from 'node:url';
-import { createJiti } from 'jiti';
 import { addDevDependency } from 'nypm';
 import prompts from 'prompts';
 import { packageJson } from './packageJson.js';
@@ -62,21 +60,25 @@ const findWorkspacePreviewServer = (): string | null => {
   return null;
 };
 
+/**
+ * Finds the location of the preview server
+ * 1. Checks if the preview server is installed in the workspace
+ * 2. If not, checks if the preview server is installed in the cwd
+ * 3. If not, prompts the user to install it
+ * 4. If the user installs it, it will return the location of the preview server
+ * 5. If the user does not install it, it will exit the process
+ * @returns The location of the preview server
+ */
 export const getPreviewServerLocation = async () => {
-  const usersProject = createJiti(process.cwd());
   let previewServerLocation!: string;
 
-  // First try to find it in workspace
   const workspacePath = findWorkspacePreviewServer();
   if (workspacePath) {
     previewServerLocation = workspacePath;
   } else {
-    // Try to resolve from node_modules
     try {
       previewServerLocation = path.dirname(
-        url.fileURLToPath(
-          usersProject.esmResolve('@ahmedrowaihi/pdf-forge-preview'),
-        ),
+        Bun.resolveSync('@ahmedrowaihi/pdf-forge-preview', process.cwd()),
       );
     } catch {
       await ensurePreviewServerInstalled(
@@ -89,10 +91,14 @@ export const getPreviewServerLocation = async () => {
   if (!workspacePath) {
     // Verify version if we can import it (only for non-workspace installations)
     try {
-      const { version } = await usersProject.import<{
+      const packagePath = Bun.resolveSync(
+        '@ahmedrowaihi/pdf-forge-preview/package.json',
+        process.cwd(),
+      );
+      const pkg = JSON.parse(await Bun.file(packagePath).text()) as {
         version: string;
-      }>('@ahmedrowaihi/pdf-forge-preview');
-      if (version !== packageJson.version) {
+      };
+      if (pkg.version !== packageJson.version) {
         await ensurePreviewServerInstalled(
           `To run the preview server, the version of "@ahmedrowaihi/pdf-forge-preview" must match the version of "@ahmedrowaihi/pdf-forge-cli" (${packageJson.version}). Would you like to install it?`,
         );

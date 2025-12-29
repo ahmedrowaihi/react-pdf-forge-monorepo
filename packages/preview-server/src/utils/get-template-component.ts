@@ -1,157 +1,205 @@
 import path from 'node:path';
 import type { render } from '@ahmedrowaihi/pdf-forge-components';
-import { type BuildFailure, build, type OutputFile } from 'esbuild';
+import {
+  clearTransformCaches,
+  transformAssetsToImports,
+} from '@ahmedrowaihi/pdf-forge-toolbox';
 import type React from 'react';
 import type { RawSourceMap } from 'source-map-js';
-import { z } from 'zod';
 import { convertStackWithSourceMap } from './convert-stack-with-sourcemap';
-import { renderingUtilitiesExporter } from './esbuild/renderring-utilities-exporter';
-import { isErr } from './result';
-import { createContext, runBundledCode } from './run-bundled-code';
 import type { ErrorObject } from './types/error-object';
 import type { Template as TemplateComponent } from './types/template';
 
-const TemplateComponentModule = z.object({
-  default: z.any(),
-  render: z.function(),
-  reactPDFCreateReactElement: z.function(),
-});
+const componentCache = new Map<
+  string,
+  | {
+      templateComponent: TemplateComponent;
+      createElement: typeof React.createElement;
+      renderWithReferences: typeof render;
+      render: typeof render;
+      sourceMapToOriginalFile: RawSourceMap | null;
+    }
+  | { error: ErrorObject }
+>();
+
+const bundleCache = new Map<string, string>();
 
 export const getTemplateComponent = async (
   templatePath: string,
-  jsxRuntimePath: string,
 ): Promise<
   | {
       templateComponent: TemplateComponent;
-
       createElement: typeof React.createElement;
-
-      /**
-       * Renders the HTML with `data-source-file`/`data-source-line` attributes that should only be
-       * used internally in the preview server and never shown to the user.
-       */
       renderWithReferences: typeof render;
       render: typeof render;
-
-      sourceMapToOriginalFile: RawSourceMap;
+      sourceMapToOriginalFile: RawSourceMap | null;
     }
   | { error: ErrorObject }
 > => {
-  let outputFiles: OutputFile[];
-  try {
-    const buildData = await build({
-      bundle: true,
-      entryPoints: [templatePath],
-      plugins: [renderingUtilitiesExporter([templatePath])],
-      platform: 'node',
-      write: false,
-      jsxDev: true,
-      jsxImportSource: jsxRuntimePath,
+  const absoluteTemplatePath = path.isAbsolute(templatePath)
+    ? templatePath
+    : path.resolve(process.cwd(), templatePath);
 
-      format: 'cjs',
-      jsx: 'automatic',
-      logLevel: 'silent',
-      // allows for using jsx on a .js file
-      loader: {
-        '.js': 'jsx',
-      },
-      outdir: 'stdout', // just a stub for esbuild, it won't actually write to this folder
-      sourcemap: 'external',
-    });
-    outputFiles = buildData.outputFiles;
-  } catch (exception) {
-    const buildFailure = exception as BuildFailure;
-    return {
-      error: {
-        message: buildFailure.message,
-        stack: buildFailure.stack,
-        name: buildFailure.name,
-        cause: buildFailure.cause,
-      },
-    };
+  if (componentCache.has(absoluteTemplatePath)) {
+    return componentCache.get(absoluteTemplatePath)!;
   }
 
-  const sourceMapFile = outputFiles[0]!;
-  const bundledTemplateFile = outputFiles[1]!;
-  const builtTemplateCode = bundledTemplateFile.text;
+  try {
+    const fs = await import('node:fs/promises');
+    const os = await import('node:os');
 
-  const sourceMapToTemplate = JSON.parse(sourceMapFile.text) as RawSourceMap;
-  // because it will have a path like <tsconfigLocation>/stdout/template.js.map
-  sourceMapToTemplate.sourceRoot = path.resolve(sourceMapFile.path, '../..');
-  sourceMapToTemplate.sources = sourceMapToTemplate.sources.map((source) =>
-    path.resolve(sourceMapFile.path, '..', source),
-  );
+    let bundlePath: string | undefined = bundleCache.get(absoluteTemplatePath);
 
-  const context = createContext(templatePath);
-  context.shouldIncludeSourceReference = false;
-  const runningResult = runBundledCode(
-    builtTemplateCode,
-    templatePath,
-    context,
-  );
+    if (!bundlePath) {
+      const tempDir = await fs.mkdtemp(
+        path.join(os.tmpdir(), 'pdf-forge-template-'),
+      );
 
-  if (isErr(runningResult)) {
-    const { error } = runningResult;
-    if (error instanceof Error) {
-      error.stack &&= error.stack.split('at Script.runInContext (node:vm')[0];
+      const templateDir = path.dirname(absoluteTemplatePath);
+      const assetTransformPlugin: Bun.BunPlugin = {
+        name: 'asset-to-import-transform',
+        setup(builder) {
+          builder.onLoad(
+            {
+              filter: /\.(tsx?|jsx?)$/,
+            },
+            async (args) => {
+              const filePath = args.path;
+              const isInTemplateDir = filePath.startsWith(templateDir);
 
+              if (!isInTemplateDir) {
+                return undefined;
+              }
+
+              const code = await Bun.file(filePath).text();
+              const { code: transformedCode } = await transformAssetsToImports(
+                code,
+                filePath,
+              );
+
+              if (transformedCode !== code) {
+                return {
+                  contents: transformedCode,
+                  loader: 'tsx',
+                };
+              }
+              return undefined;
+            },
+          );
+        },
+      };
+
+      const buildResult = await Bun.build({
+        entrypoints: [absoluteTemplatePath],
+        plugins: [assetTransformPlugin],
+        outdir: tempDir,
+        target: 'node',
+        format: 'esm',
+        external: [
+          'react',
+          'react-dom',
+          '@ahmedrowaihi/pdf-forge-components',
+          '@ahmedrowaihi/pdf-forge-core',
+          '@ahmedrowaihi/pdf-forge-primitive',
+        ],
+        jsx: {
+          runtime: 'automatic',
+          importSource: 'react',
+        },
+        minify: false,
+        sourcemap: 'external',
+        splitting: false,
+      });
+
+      if (!buildResult.success) {
+        const errorMessages = buildResult.logs
+          .map((log) => log.message)
+          .join('\n');
+        throw new Error(`Bun build failed: ${errorMessages}`);
+      }
+
+      const outputFile = buildResult.outputs.find((output) =>
+        output.path.endsWith('.js'),
+      );
+      if (!outputFile) {
+        throw new Error('Bun build did not produce an output file');
+      }
+
+      const newBundlePath = outputFile.path;
+      bundlePath = newBundlePath;
+      bundleCache.set(absoluteTemplatePath, newBundlePath);
+    }
+
+    if (!bundlePath) {
+      throw new Error('Bundle path is undefined');
+    }
+    const finalBundlePath = bundlePath;
+
+    const dynamicImport = new Function('path', 'return import(path)');
+    const templateModule = (await dynamicImport(
+      `file://${finalBundlePath}`,
+    )) as { default?: TemplateComponent };
+
+    const templateComponent =
+      templateModule?.default ?? (templateModule as TemplateComponent);
+
+    const { render: renderFn } = await import('@ahmedrowaihi/pdf-forge-core');
+    const React = await import('react');
+    const { createElement } = React;
+
+    if (typeof templateComponent !== 'function') {
       return {
         error: {
-          name: error.name,
-          message: error.message,
-          stack: convertStackWithSourceMap(
-            error.stack,
-            templatePath,
-            sourceMapToTemplate,
-          ),
-          cause: error.cause,
+          name: 'Error',
+          message: `The template component at ${templatePath} does not contain a default exported function`,
+          stack: new Error().stack,
         },
       };
     }
 
-    throw error;
-  }
+    const result = {
+      templateComponent: templateComponent,
+      createElement,
+      renderWithReferences: renderFn,
+      render: renderFn,
+      sourceMapToOriginalFile: null,
+    };
 
-  const parseResult = TemplateComponentModule.safeParse(runningResult.value);
+    componentCache.set(absoluteTemplatePath, result);
+    return result;
+  } catch (exception) {
+    const error = exception as Error;
+    let stack = error.stack;
 
-  if (parseResult.error) {
-    return {
+    if (stack) {
+      stack = stack.split('at Script.runInContext (node:vm')[0];
+    }
+
+    const errorResult = {
       error: {
-        name: 'Error',
-        message: `The template component at ${templatePath} does not contain the expected exports`,
-        stack: new Error().stack,
-        cause: parseResult.error,
+        name: error.name,
+        message: error.message,
+        stack: convertStackWithSourceMap(stack, templatePath, null),
+        cause: error.cause,
       },
     };
+
+    componentCache.set(absoluteTemplatePath, errorResult);
+    return errorResult;
   }
+};
 
-  if (typeof parseResult.data.default !== 'function') {
-    return {
-      error: {
-        name: 'Error',
-        message: `The template component at ${templatePath} does not contain a default exported function`,
-        stack: new Error().stack,
-        cause: parseResult.error,
-      },
-    };
+export const clearComponentCache = (templatePath?: string) => {
+  if (templatePath) {
+    const absolutePath = path.isAbsolute(templatePath)
+      ? templatePath
+      : path.resolve(process.cwd(), templatePath);
+    componentCache.delete(absolutePath);
+    bundleCache.delete(absolutePath);
+    clearTransformCaches();
+  } else {
+    componentCache.clear();
+    bundleCache.clear();
+    clearTransformCaches();
   }
-
-  const { data: componentModule } = parseResult;
-
-  const typedRender = componentModule.render as typeof render;
-
-  return {
-    templateComponent: componentModule.default as TemplateComponent,
-    renderWithReferences: (async (...args: Parameters<typeof render>) => {
-      context.shouldIncludeSourceReference = true;
-      const renderingResult = await typedRender(...args);
-      context.shouldIncludeSourceReference = false;
-      return renderingResult;
-    }) as typeof render,
-    render: typedRender,
-    createElement:
-      componentModule.reactPDFCreateReactElement as typeof React.createElement,
-
-    sourceMapToOriginalFile: sourceMapToTemplate,
-  };
 };

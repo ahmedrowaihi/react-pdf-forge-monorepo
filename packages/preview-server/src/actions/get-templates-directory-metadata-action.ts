@@ -1,7 +1,9 @@
 'use server';
 
-import type { TemplatesDirectory } from '../utils/get-templates-directory-metadata';
-import { getTemplatesDirectoryMetadata } from '../utils/get-templates-directory-metadata';
+import {
+  getTemplatesDirectoryMetadata,
+  type TemplatesDirectory,
+} from '@ahmedrowaihi/pdf-forge-toolbox';
 
 export const getTemplatesDirectoryMetadataAction = async (
   absolutePathToTemplatesDirectory: string,

@@ -1,5 +1,17 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- 5e324d8: All In Bun and Printer Pool
+
+### Patch Changes
+
+- Updated dependencies [5e324d8]
+  - @ahmedrowaihi/pdf-forge-printer@1.2.0-canary.0
+  - @ahmedrowaihi/pdf-forge-toolbox@1.2.0-canary.0
+
 ## 1.1.0
 
 ### Minor Changes

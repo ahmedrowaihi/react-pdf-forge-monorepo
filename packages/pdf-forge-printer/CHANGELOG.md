@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-printer
 
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- 5e324d8: All In Bun and Printer Pool
+
 ## 1.1.0
 
 ### Minor Changes

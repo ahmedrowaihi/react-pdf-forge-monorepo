@@ -1,8 +1,8 @@
 'use client';
 
+import type { HotReloadChange } from '@ahmedrowaihi/pdf-forge-toolbox';
 import { useEffect, useRef } from 'react';
 import { io, type Socket } from 'socket.io-client';
-import type { HotReloadChange } from '../utils/types/hot-reload-change';
 
 /**
  * Hook that detects any "reload" event sent from the CLI's web socket

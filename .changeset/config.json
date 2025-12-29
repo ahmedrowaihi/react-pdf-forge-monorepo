@@ -5,6 +5,6 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [["@ahmedrowaihi/pdf-forge-cli", "@ahmedrowaihi/pdf-forge-preview"]],
-  "ignore": ["demo"],
+  "ignore": ["demo", "hono-example"],
   "updateInternalDependencies": "patch"
 }

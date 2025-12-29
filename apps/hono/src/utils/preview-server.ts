@@ -240,13 +240,7 @@ export async function createPreviewHandler(
       isMain: boolean,
       options: any,
     ) {
-      let resolvedRequest = request;
-      if (
-        request.startsWith('esbuild-') &&
-        /^esbuild-[a-f0-9]+$/.test(request)
-      ) {
-        resolvedRequest = 'esbuild';
-      }
+      const resolvedRequest = request;
       return originalResolveFilename.call(
         this,
         resolvedRequest,

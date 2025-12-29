@@ -1,13 +1,14 @@
 import http from 'node:http';
 import path from 'node:path';
 import url from 'node:url';
-import { createJiti } from 'jiti';
+import {
+  registerSpinnerAutostopping,
+  styleText,
+} from '@ahmedrowaihi/pdf-forge-toolbox';
 import logSymbols from 'log-symbols';
 import ora from 'ora';
 import { getPreviewServerLocation } from '../get-preview-server-location.js';
 import { packageJson } from '../packageJson.js';
-import { registerSpinnerAutostopping } from '../register-spinner-autostopping.js';
-import { styleText } from '../style-text.js';
 import { getEnvVariablesForPreviewApp } from './get-env-variables-for-preview-app.js';
 import { serveStaticFile } from './serve-static-file.js';
 
@@ -32,16 +33,14 @@ export const startDevServer = async (
   staticBaseDirRelativePath: string,
   port: number,
 ): Promise<http.Server> => {
-  const [majorNodeVersion] = process.versions.node.split('.');
-  if (majorNodeVersion && Number.parseInt(majorNodeVersion, 10) < 20) {
+  if (typeof Bun === 'undefined') {
     console.error(
-      ` ${logSymbols.error}  Node ${majorNodeVersion} is not supported. Please upgrade to Node 20 or higher.`,
+      ` ${logSymbols.error}  Bun runtime is required. Please run with: bun run pdf-dev dev`,
     );
     process.exit(1);
   }
 
   const previewServerLocation = await getPreviewServerLocation();
-  const previewServer = createJiti(previewServerLocation);
 
   devServer = http.createServer((req, res) => {
     if (!req.url) {
@@ -148,12 +147,10 @@ export const startDevServer = async (
     ),
   };
 
-  const next = await previewServer.import<typeof import('next')['default']>(
-    'next',
-    {
-      default: true,
-    },
-  );
+  const nextModulePath = Bun.resolveSync('next', previewServerLocation);
+  const nextModule = await import(nextModulePath);
+  const next = (nextModule.default ??
+    nextModule) as typeof import('next')['default'];
 
   const app = next({
     // passing in env here does not get the environment variables there

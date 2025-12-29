@@ -2,20 +2,19 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  registerSpinnerAutostopping,
+  styleText,
+} from '@ahmedrowaihi/pdf-forge-toolbox';
 import logSymbols from 'log-symbols';
 import ora, { type Ora } from 'ora';
 import type React from 'react';
-import {
-  isBuilding,
-  isPreviewDevelopment,
-  previewServerLocation,
-  userProjectLocation,
-} from '../app/env';
+import { isBuilding, isPreviewDevelopment } from '../app/env';
 import { convertStackWithSourceMap } from '../utils/convert-stack-with-sourcemap';
-import { createJsxRuntime } from '../utils/create-jsx-runtime';
-import { getTemplateComponent } from '../utils/get-template-component';
-import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping';
-import { styleText } from '../utils/style-text';
+import {
+  clearComponentCache,
+  getTemplateComponent,
+} from '../utils/get-template-component';
 import type { ErrorObject } from '../utils/types/error-object';
 
 export interface RenderedTemplateMetadata {
@@ -92,6 +91,7 @@ export const renderTemplateByPath = async (
 ): Promise<TemplateRenderingResult> => {
   if (invalidatingCache) {
     cache.delete(templatePath);
+    clearComponentCache(templatePath);
   }
 
   if (cache.has(templatePath)) {
@@ -114,20 +114,9 @@ export const renderTemplateByPath = async (
     registerSpinnerAutostopping(spinner);
   }
 
-  const timeBeforeTemplateBundled = performance.now();
-  const originalJsxRuntimePath = path.resolve(
-    previewServerLocation,
-    'jsx-runtime',
-  );
-  const jsxRuntimePath = await createJsxRuntime(
-    userProjectLocation,
-    originalJsxRuntimePath,
-  );
-  const componentResult = await getTemplateComponent(
-    templatePath,
-    jsxRuntimePath,
-  );
-  const millisecondsToBundled = performance.now() - timeBeforeTemplateBundled;
+  const timeBeforeTemplateLoaded = performance.now();
+  const componentResult = await getTemplateComponent(templatePath);
+  const millisecondsToLoaded = performance.now() - timeBeforeTemplateLoaded;
 
   if ('error' in componentResult) {
     spinner?.stopAndPersist({
@@ -181,7 +170,7 @@ export const renderTemplateByPath = async (
     }
     spinner?.stopAndPersist({
       symbol: logSymbols.success,
-      text: `Successfully rendered ${templateFilename} in ${timeForConsole} (bundled in ${millisecondsToBundled.toFixed(0)}ms)`,
+      text: `Successfully rendered ${templateFilename} in ${timeForConsole} (loaded in ${millisecondsToLoaded.toFixed(0)}ms)`,
     });
     logBufferer.flush();
     errorBufferer.flush();
