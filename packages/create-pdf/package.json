@@ -5,12 +5,9 @@
   "main": "src/index.js",
   "type": "module",
   "license": "MIT",
-  "scripts": {
-    "test": "vitest run"
-  },
+  "scripts": {},
   "dependencies": {
     "commander": "^13.0.0",
-    "fs-extra": "^11.1.1",
     "log-symbols": "^7.0.0",
     "ora": "^8.0.0"
   },
@@ -30,9 +27,7 @@
     "create-pdf-forge": "src/index.js"
   },
   "devDependencies": {
-    "nypm": "0.6.0",
-    "react": "19.0.0",
     "tsconfig": "workspace:*",
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   }
 }

@@ -1,25 +1,22 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
+import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { Command } from 'commander';
-import fse from 'fs-extra';
 import logSymbols from 'log-symbols';
 import ora from 'ora';
 import { tree } from './tree.js';
 
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
+const dirname = import.meta.dir;
 
-const packageJson = JSON.parse(
-  fse.readFileSync(path.resolve(dirname, '../package.json'), 'utf8'),
-);
+const packageJson = await Bun.file(
+  path.resolve(dirname, '../package.json'),
+).json();
 
 const getLatestVersionOfTag = async (packageName, tag) => {
-  // Use NPM_CONFIG_REGISTRY or default to npm registry
   const registry =
     process.env.NPM_CONFIG_REGISTRY || 'https://registry.npmjs.org';
-  const registryUrl = registry.replace(/\/$/, ''); // Remove trailing slash
+  const registryUrl = registry.replace(/\/$/, '');
   const response = await fetch(`${registryUrl}/${packageName}/${tag}`);
   const data = await response.json();
 
@@ -37,6 +34,10 @@ const getLatestVersionOfTag = async (packageName, tag) => {
   return version;
 };
 
+const copyDirectory = async (src, dest) => {
+  await fs.cp(src, dest, { recursive: true });
+};
+
 const init = async (name, { tag }) => {
   let projectPath = name;
 
@@ -51,44 +52,38 @@ const init = async (name, { tag }) => {
   const templatePath = path.resolve(dirname, '../template');
   const resolvedProjectPath = path.resolve(projectPath);
 
-  if (fse.existsSync(resolvedProjectPath)) {
+  try {
+    await Bun.stat(resolvedProjectPath);
     console.error(`Project called ${projectPath} already exists!`);
     process.exit(1);
+  } catch {
+    // Directory doesn't exist, proceed
   }
 
   const spinner = ora({
     text: 'Preparing files...\n',
   }).start();
 
-  fse.copySync(templatePath, resolvedProjectPath, {
-    recursive: true,
-  });
+  await fs.mkdir(resolvedProjectPath, { recursive: true });
+  await copyDirectory(templatePath, resolvedProjectPath);
   const templatePackageJsonPath = path.resolve(
     resolvedProjectPath,
     './package.json',
   );
-  const templatePackageJson = fse.readFileSync(templatePackageJsonPath, 'utf8');
+  const templatePackageJson = await Bun.file(templatePackageJsonPath).text();
 
-  const componentsVersion = await getLatestVersionOfTag(
-    '@ahmedrowaihi/pdf-forge-components',
-    tag,
-  );
-  const cliVersion = await getLatestVersionOfTag(
-    '@ahmedrowaihi/pdf-forge-cli',
-    tag,
-  );
-  const previewVersion = await getLatestVersionOfTag(
-    '@ahmedrowaihi/pdf-forge-preview',
-    tag,
-  );
+  const [componentsVersion, cliVersion, previewVersion] = await Promise.all([
+    getLatestVersionOfTag('@ahmedrowaihi/pdf-forge-components', tag),
+    getLatestVersionOfTag('@ahmedrowaihi/pdf-forge-cli', tag),
+    getLatestVersionOfTag('@ahmedrowaihi/pdf-forge-preview', tag),
+  ]);
 
-  fse.writeFileSync(
+  await Bun.write(
     templatePackageJsonPath,
     templatePackageJson
       .replace('INSERT_COMPONENTS_VERSION', componentsVersion)
       .replace('INSERT_CLI_VERSION', cliVersion)
       .replace('INSERT_PREVIEW_VERSION', previewVersion),
-    'utf8',
   );
 
   spinner.stopAndPersist({
