@@ -17,7 +17,14 @@
     "playwright": "^1.57.0",
     "sharp": "^0.34.5"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@sparticuz/chromium": ">=143.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@sparticuz/chromium": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/node": "22.14.1",
     "tsconfig": "workspace:*",

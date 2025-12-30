@@ -8,6 +8,18 @@ Playwright-based PDF and screenshot rendering service for React PDF Forge with b
 pnpm add @ahmedrowaihi/pdf-forge-printer playwright
 ```
 
+### Recommended: Install @sparticuz/chromium
+
+The package uses `@sparticuz/chromium` as the default browser runtime. Install it for optimal performance:
+
+```bash
+pnpm add @sparticuz/chromium
+```
+
+**Note:** Check the [Puppeteer Chromium Support page](https://pptr.dev/chromium-support) to determine which version of `@sparticuz/chromium` matches your Playwright version.
+
+If `@sparticuz/chromium` is not installed, the package will automatically fall back to Playwright's bundled Chromium.
+
 ## Usage
 
 ### Basic Usage
@@ -109,7 +121,35 @@ const buffer = await pdfService.render({
 
 ### Environment Variables
 
-- `CHROMIUM_EXECUTABLE_PATH` - Path to custom Chromium executable (optional)
+- `CHROMIUM_EXECUTABLE_PATH` - Path to custom Chromium executable (highest priority, overrides default)
+- `SPARTICUZ_CHROMIUM_PATH` - Optional path or URL to Chromium pack (for `@sparticuz/chromium-min`)
+- `SPARTICUZ_CHROMIUM_DISABLE_WEBGL` - Set to `"true"` to disable WebGL (may improve performance)
+
+### Browser Selection Priority
+
+1. **`CHROMIUM_EXECUTABLE_PATH`** - If set, uses this path (highest priority)
+2. **`@sparticuz/chromium`** - Default browser if installed
+3. **Playwright's bundled Chromium** - Fallback if `@sparticuz/chromium` is not available
+
+### Using @sparticuz/chromium-min
+
+If you're using the `-min` package (for smaller bundle sizes), provide the path to your Chromium pack:
+
+```bash
+export SPARTICUZ_CHROMIUM_PATH=/opt/chromium
+# or
+export SPARTICUZ_CHROMIUM_PATH=https://your-cdn.com/chromiumPack.tar
+```
+
+**Example setup:**
+
+```typescript
+import { PlaywrightPdfService } from "@ahmedrowaihi/pdf-forge-printer";
+
+// Automatically uses @sparticuz/chromium if installed
+// Falls back to Playwright's Chromium if not available
+const pdfService = new PlaywrightPdfService();
+```
 
 ### Default Settings
 
