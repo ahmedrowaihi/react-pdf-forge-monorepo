@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-printer
 
+## 2.0.0-canary.4
+
+### Patch Changes
+
+- 675311a: assure serverless playwright on linux only
+
 ## 2.0.0-canary.3
 
 ### Major Changes
