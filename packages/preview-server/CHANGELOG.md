@@ -1,5 +1,12 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 2.0.0-canary.4
+
+### Patch Changes
+
+- Updated dependencies [675311a]
+  - @ahmedrowaihi/pdf-forge-printer@2.0.0-canary.4
+
 ## 2.0.0-canary.3
 
 ### Major Changes

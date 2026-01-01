@@ -1,5 +1,7 @@
 # @ahmedrowaihi/pdf-forge-cli
 
+## 2.0.0-canary.4
+
 ## 2.0.0-canary.3
 
 ### Major Changes
