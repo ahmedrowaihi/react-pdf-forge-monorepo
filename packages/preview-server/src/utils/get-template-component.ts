@@ -96,8 +96,6 @@ export const getTemplateComponent = async (
         target: 'node',
         format: 'esm',
         external: [
-          'react',
-          'react-dom',
           '@ahmedrowaihi/pdf-forge-components',
           '@ahmedrowaihi/pdf-forge-core',
         ],
