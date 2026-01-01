@@ -1,5 +1,17 @@
 # @ahmedrowaihi/pdf-forge-cli
 
+## 2.0.0-canary.5
+
+### Patch Changes
+
+- 7eb50c4: external bun build react and react-dom
+- 580296f: prevent cache errors and jsx dev runtime
+- Updated dependencies [7eb50c4]
+- Updated dependencies [580296f]
+  - @ahmedrowaihi/pdf-forge-dev-tools@2.0.0-canary.4
+  - @ahmedrowaihi/pdf-forge-templates@2.0.0-canary.4
+  - @ahmedrowaihi/pdf-forge-assets@2.0.0-canary.4
+
 ## 2.0.0-canary.4
 
 ## 2.0.0-canary.3
