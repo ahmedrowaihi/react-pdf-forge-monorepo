@@ -38,17 +38,25 @@ export class ChromiumResolver {
       };
     }
 
-    // Try to use @sparticuz/chromium on Linux or when forced
+    // @sparticuz/chromium is only for Linux/serverless environments
+    // Explicitly skip on macOS/Windows to avoid executable issues
     const isLinux = process.platform === 'linux';
+    const isMacOS = process.platform === 'darwin';
+    const isWindows = process.platform === 'win32';
     const forceSparticuz =
       process.env.USE_SPARTICUZ_CHROMIUM === 'true' ||
       process.env.AWS_LAMBDA_FUNCTION_NAME;
 
-    if (isLinux || forceSparticuz) {
+    // Only use @sparticuz/chromium on Linux or when explicitly forced (and not on macOS/Windows)
+    if ((isLinux || forceSparticuz) && !isMacOS && !isWindows) {
       const sparticuzResult = await this.tryResolveSparticuzChromium();
       if (sparticuzResult) {
         return sparticuzResult;
       }
+    } else if (isMacOS || isWindows) {
+      this.logger.log(
+        `Platform is ${process.platform}, using Playwright's default Chromium (@sparticuz/chromium is Linux/serverless only)`,
+      );
     } else {
       this.logger.log(
         `Platform is ${process.platform}, using Playwright's default Chromium (use @sparticuz/chromium on Linux/serverless)`,

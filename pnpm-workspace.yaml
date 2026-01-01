@@ -1,6 +1,5 @@
 packages:
   - apps/*
-  - benchmarks/*
   - packages/*
 
 autoInstallPeers: true
