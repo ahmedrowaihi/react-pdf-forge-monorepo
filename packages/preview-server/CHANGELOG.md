@@ -1,5 +1,24 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 2.0.0-canary.3
+
+### Major Changes
+
+- 00e21c6: split packages
+
+### Minor Changes
+
+- 0d924cc: serverless chromium on lambda
+
+### Patch Changes
+
+- Updated dependencies [00e21c6]
+- Updated dependencies [0d924cc]
+  - @ahmedrowaihi/pdf-forge-printer@2.0.0-canary.3
+  - @ahmedrowaihi/pdf-forge-dev-tools@2.0.0-canary.3
+  - @ahmedrowaihi/pdf-forge-templates@2.0.0-canary.3
+  - @ahmedrowaihi/pdf-forge-assets@2.0.0-canary.3
+
 ## 1.2.0-canary.2
 
 ### Patch Changes
