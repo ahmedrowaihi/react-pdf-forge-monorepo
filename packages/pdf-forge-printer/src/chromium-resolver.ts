@@ -43,25 +43,33 @@ export class ChromiumResolver {
     const isLinux = process.platform === 'linux';
     const isMacOS = process.platform === 'darwin';
     const isWindows = process.platform === 'win32';
+
+    // Never use @sparticuz/chromium on macOS or Windows, even if forced
+    if (isMacOS || isWindows) {
+      this.logger.log(
+        `Platform is ${process.platform}, using Playwright's default Chromium (@sparticuz/chromium is Linux/serverless only)`,
+      );
+      return {
+        args: defaultArgs,
+      };
+    }
+
+    // Only try @sparticuz/chromium on Linux or when explicitly forced
     const forceSparticuz =
       process.env.USE_SPARTICUZ_CHROMIUM === 'true' ||
       process.env.AWS_LAMBDA_FUNCTION_NAME;
 
-    // Only use @sparticuz/chromium on Linux or when explicitly forced (and not on macOS/Windows)
-    if ((isLinux || forceSparticuz) && !isMacOS && !isWindows) {
+    if (isLinux || forceSparticuz) {
       const sparticuzResult = await this.tryResolveSparticuzChromium();
       if (sparticuzResult) {
         return sparticuzResult;
       }
-    } else if (isMacOS || isWindows) {
-      this.logger.log(
-        `Platform is ${process.platform}, using Playwright's default Chromium (@sparticuz/chromium is Linux/serverless only)`,
-      );
-    } else {
-      this.logger.log(
-        `Platform is ${process.platform}, using Playwright's default Chromium (use @sparticuz/chromium on Linux/serverless)`,
-      );
     }
+
+    // Fallback to Playwright's default Chromium
+    this.logger.log(
+      `Platform is ${process.platform}, using Playwright's default Chromium (use @sparticuz/chromium on Linux/serverless)`,
+    );
 
     // Fallback to Playwright's default Chromium
     return {

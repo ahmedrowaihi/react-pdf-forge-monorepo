@@ -40,14 +40,20 @@ export const getTemplateComponent = async (
     ? templatePath
     : path.resolve(process.cwd(), templatePath);
 
-  if (componentCache.has(absoluteTemplatePath)) {
-    return componentCache.get(absoluteTemplatePath)!;
+  // Check cache, but skip if it's an error (allow retry)
+  const cached = componentCache.get(absoluteTemplatePath);
+  if (cached && !('error' in cached)) {
+    return cached;
   }
 
   try {
     const fs = await import('node:fs/promises');
     const os = await import('node:os');
 
+    const templateDir = path.dirname(absoluteTemplatePath);
+
+    // Simple cache key - just the template path
+    // React is external, so it resolves at runtime from user's project
     let bundlePath: string | undefined = bundleCache.get(absoluteTemplatePath);
 
     if (!bundlePath) {
@@ -55,7 +61,6 @@ export const getTemplateComponent = async (
         path.join(os.tmpdir(), 'pdf-forge-template-'),
       );
 
-      const templateDir = path.dirname(absoluteTemplatePath);
       const assetTransformPlugin: Bun.BunPlugin = {
         name: 'asset-to-import-transform',
         setup(builder) {
@@ -96,6 +101,10 @@ export const getTemplateComponent = async (
         target: 'node',
         format: 'esm',
         external: [
+          'react',
+          'react-dom',
+          'react/jsx-runtime',
+          'react/jsx-dev-runtime',
           '@ahmedrowaihi/pdf-forge-components',
           '@ahmedrowaihi/pdf-forge-core',
         ],
@@ -172,6 +181,19 @@ export const getTemplateComponent = async (
       stack = stack.split('at Script.runInContext (node:vm')[0];
     }
 
+    // React is external, so resolution errors should be rare
+    // But if they occur, clear caches to allow retry
+    const isReactResolutionError =
+      error.message.includes("Cannot find package 'react'") ||
+      error.message.includes("Cannot find module 'react'") ||
+      error.message.includes('react/jsx');
+
+    if (isReactResolutionError) {
+      bundleCache.delete(absoluteTemplatePath);
+      componentCache.delete(absoluteTemplatePath);
+      clearTransformCaches();
+    }
+
     const errorResult = {
       error: {
         name: error.name,
@@ -181,7 +203,6 @@ export const getTemplateComponent = async (
       },
     };
 
-    componentCache.set(absoluteTemplatePath, errorResult);
     return errorResult;
   }
 };
