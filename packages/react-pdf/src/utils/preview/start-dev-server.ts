@@ -4,7 +4,7 @@ import url from 'node:url';
 import {
   registerSpinnerAutostopping,
   styleText,
-} from '@ahmedrowaihi/pdf-forge-toolbox';
+} from '@ahmedrowaihi/pdf-forge-dev-tools';
 import logSymbols from 'log-symbols';
 import ora from 'ora';
 import { getPreviewServerLocation } from '../get-preview-server-location.js';

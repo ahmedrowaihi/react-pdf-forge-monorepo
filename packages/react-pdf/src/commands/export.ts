@@ -1,11 +1,11 @@
 import fs, { promises as fsPromises, unlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import type { Options } from '@ahmedrowaihi/pdf-forge-core';
+import { registerSpinnerAutostopping } from '@ahmedrowaihi/pdf-forge-dev-tools';
 import {
   getTemplatesDirectoryMetadata,
-  registerSpinnerAutostopping,
   type TemplatesDirectory,
-} from '@ahmedrowaihi/pdf-forge-toolbox';
+} from '@ahmedrowaihi/pdf-forge-templates';
 import { glob } from 'glob';
 import logSymbols from 'log-symbols';
 import normalize from 'normalize-path';
@@ -90,7 +90,7 @@ export const exportTemplates = async (
 
           const code = await Bun.file(filePath).text();
           const { transformAssetsToImports } = await import(
-            '@ahmedrowaihi/pdf-forge-toolbox'
+            '@ahmedrowaihi/pdf-forge-assets'
           );
           const { code: transformedCode } = await transformAssetsToImports(
             code,

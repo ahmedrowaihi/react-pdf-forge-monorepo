@@ -1,9 +1,9 @@
 import path from 'node:path';
-import type { render } from '@ahmedrowaihi/pdf-forge-components';
 import {
   clearTransformCaches,
   transformAssetsToImports,
-} from '@ahmedrowaihi/pdf-forge-toolbox';
+} from '@ahmedrowaihi/pdf-forge-assets';
+import type { render } from '@ahmedrowaihi/pdf-forge-components';
 import type React from 'react';
 import type { RawSourceMap } from 'source-map-js';
 import { convertStackWithSourceMap } from './convert-stack-with-sourcemap';
@@ -100,7 +100,6 @@ export const getTemplateComponent = async (
           'react-dom',
           '@ahmedrowaihi/pdf-forge-components',
           '@ahmedrowaihi/pdf-forge-core',
-          '@ahmedrowaihi/pdf-forge-primitive',
         ],
         jsx: {
           runtime: 'automatic',

@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
     "directory": "packages/pdf-forge-printer"
   },
   "keywords": [

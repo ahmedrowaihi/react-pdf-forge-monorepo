@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { getTemplatesDirectoryMetadata } from '@ahmedrowaihi/pdf-forge-toolbox';
+import { getTemplatesDirectoryMetadata } from '@ahmedrowaihi/pdf-forge-templates';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { getTemplatePathFromSlug } from '../../../actions/get-template-path-from-slug';

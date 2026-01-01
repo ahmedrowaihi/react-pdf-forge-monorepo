@@ -14,8 +14,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
-    "directory": "packages/react-pdf"
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
+    "directory": "packages/cli"
   },
   "keywords": [
     "react",
@@ -25,7 +25,9 @@
     "bun": ">=1.0.0"
   },
   "dependencies": {
-    "@ahmedrowaihi/pdf-forge-toolbox": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-assets": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-dev-tools": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-templates": "workspace:*",
     "chokidar": "^4.0.3",
     "commander": "^13.0.0",
     "conf": "^15.0.2",

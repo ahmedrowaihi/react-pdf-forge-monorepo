@@ -101,8 +101,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
-    "directory": "packages/render"
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
+    "directory": "packages/core"
   },
   "keywords": [
     "react",

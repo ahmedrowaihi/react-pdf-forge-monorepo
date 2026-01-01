@@ -1,22 +1,26 @@
-import type { PageScreenshotOptions } from "playwright";
-import type { Browser, BrowserContextOptions, Page } from "playwright";
-import sharp, { type ResizeOptions } from "sharp";
-import type { PdfLogger } from "./logger";
-import {
-  type RenderContextOptions,
-  type RenderPdfOptions,
-  type RenderScreenshotOptions,
-} from "./playwright-pdf.service";
+import type {
+  Browser,
+  BrowserContextOptions,
+  Page,
+  PageScreenshotOptions,
+} from 'playwright';
+import sharp, { type ResizeOptions } from 'sharp';
+import type { PdfLogger } from './logger';
+import type {
+  RenderContextOptions,
+  RenderPdfOptions,
+  RenderScreenshotOptions,
+} from './playwright-pdf.service';
 
 const A4_WIDTH = 794;
 const A4_HEIGHT = 1123;
 
-type PDFOptions = Parameters<Page["pdf"]>[0];
+type PDFOptions = Parameters<Page['pdf']>[0];
 
 export interface RenderInput {
   html?: string;
   url?: string;
-  outputType: "pdf" | "screenshot";
+  outputType: 'pdf' | 'screenshot';
   darkMode?: boolean;
   contextOptions?: Partial<RenderContextOptions>;
   screenshotOptions?: Partial<RenderScreenshotOptions>;
@@ -35,7 +39,7 @@ export class Renderer {
    * Renders content to PDF or screenshot
    */
   async render(browser: Browser, input: RenderInput): Promise<Uint8Array> {
-    let context: Awaited<ReturnType<Browser["newContext"]>> | null = null;
+    let context: Awaited<ReturnType<Browser['newContext']>> | null = null;
     let page: Page | null = null;
 
     try {
@@ -46,18 +50,17 @@ export class Renderer {
       await this.loadContent(page, input);
       await this.applyDarkMode(page, input.darkMode);
 
-      if (input.outputType === "pdf") {
-        await page.emulateMedia({ media: "print" });
+      if (input.outputType === 'pdf') {
+        await page.emulateMedia({ media: 'print' });
         return await this.renderPdf(page, input.pdfOptions);
-      } else {
-        return await this.renderScreenshot(
-          page,
-          input.screenshotOptions,
-          input.sharpResizeOptions
-        );
       }
+      return await this.renderScreenshot(
+        page,
+        input.screenshotOptions,
+        input.sharpResizeOptions,
+      );
     } catch (error) {
-      this.logger.error("PDF generation error:", error);
+      this.logger.error('PDF generation error:', error);
       throw error;
     } finally {
       if (page) await page.close().catch(() => {});
@@ -70,9 +73,9 @@ export class Renderer {
    */
   private buildContextOptions(input: RenderInput): BrowserContextOptions {
     const defaultContextOptions: RenderContextOptions = {
-      colorScheme: input.darkMode ? "dark" : "light",
-      locale: "en-US",
-      reducedMotion: "reduce",
+      colorScheme: input.darkMode ? 'dark' : 'light',
+      locale: 'en-US',
+      reducedMotion: 'reduce',
       viewport: { width: A4_WIDTH, height: A4_HEIGHT },
       isMobile: false,
       hasTouch: false,
@@ -105,22 +108,22 @@ export class Renderer {
   private async loadContent(page: Page, input: RenderInput): Promise<void> {
     if (input.url) {
       await page.goto(input.url, {
-        waitUntil: "domcontentloaded",
+        waitUntil: 'domcontentloaded',
         timeout: 30000,
       });
 
       await page.evaluate(() => {
         return new Promise<void>((resolve) => {
-          if (document.readyState === "complete") {
+          if (document.readyState === 'complete') {
             resolve();
           } else {
-            window.addEventListener("load", () => resolve(), { once: true });
+            window.addEventListener('load', () => resolve(), { once: true });
           }
         });
       });
     } else if (input.html) {
       await page.setContent(input.html, {
-        waitUntil: "domcontentloaded",
+        waitUntil: 'domcontentloaded',
         timeout: 30000,
       });
     }
@@ -132,8 +135,8 @@ export class Renderer {
   private async applyDarkMode(page: Page, darkMode?: boolean): Promise<void> {
     if (darkMode) {
       await page.evaluate(() => {
-        document.documentElement.classList.add("dark");
-        document.body.classList.add("dark");
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
       });
     }
   }
@@ -143,20 +146,20 @@ export class Renderer {
    */
   private async renderPdf(
     page: Page,
-    pdfOptions?: Partial<RenderPdfOptions>
+    pdfOptions?: Partial<RenderPdfOptions>,
   ): Promise<Uint8Array> {
     const defaultPdfOptions: RenderPdfOptions = {
-      format: "A4",
+      format: 'A4',
       printBackground: true,
       preferCSSPageSize: true,
       displayHeaderFooter: false,
       outline: false,
       scale: 1,
       margin: {
-        top: "0px",
-        right: "0px",
-        bottom: "0px",
-        left: "0px",
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '0px',
       },
     };
 
@@ -190,14 +193,14 @@ export class Renderer {
   private async renderScreenshot(
     page: Page,
     screenshotOptions?: Partial<RenderScreenshotOptions>,
-    sharpResizeOptions?: ResizeOptions
+    sharpResizeOptions?: ResizeOptions,
   ): Promise<Uint8Array> {
     const defaultScreenshotOptions: RenderScreenshotOptions = {
       fullPage: true,
-      type: "png",
-      scale: "css",
-      animations: "disabled",
-      caret: "hide",
+      type: 'png',
+      scale: 'css',
+      animations: 'disabled',
+      caret: 'hide',
       omitBackground: true,
     };
 
@@ -212,7 +215,7 @@ export class Renderer {
       quality: mergedOptions.quality,
       scale: mergedOptions.scale,
       animations: mergedOptions.animations,
-      caret: mergedOptions.caret as "hide" | "initial",
+      caret: mergedOptions.caret as 'hide' | 'initial',
       omitBackground: mergedOptions.omitBackground,
       clip: mergedOptions.clip,
     };

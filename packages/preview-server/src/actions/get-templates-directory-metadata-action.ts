@@ -3,7 +3,7 @@
 import {
   getTemplatesDirectoryMetadata,
   type TemplatesDirectory,
-} from '@ahmedrowaihi/pdf-forge-toolbox';
+} from '@ahmedrowaihi/pdf-forge-templates';
 
 export const getTemplatesDirectoryMetadataAction = async (
   absolutePathToTemplatesDirectory: string,

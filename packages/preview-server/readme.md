@@ -4,7 +4,7 @@
 <div align="center">
 <a href="https://react-pdf-forge.com">Website</a>
 <span> · </span>
-<a href="https://github.com/ahmedrowaihi/react-pdf-forge">GitHub</a>
+<a href="https://github.com/ahmedrowaihi/react-pdf-forge-monorepo">GitHub</a>
 
 </div>
 

@@ -1,7 +1,7 @@
 import type http from 'node:http';
 import path from 'node:path';
-import type { HotReloadChange } from '@ahmedrowaihi/pdf-forge-toolbox';
-import { createDependencyGraph } from '@ahmedrowaihi/pdf-forge-toolbox';
+import { createDependencyGraph } from '@ahmedrowaihi/pdf-forge-assets';
+import type { HotReloadChange } from '@ahmedrowaihi/pdf-forge-dev-tools';
 import { watch } from 'chokidar';
 import debounce from 'debounce';
 import { type Socket, Server as SocketServer } from 'socket.io';

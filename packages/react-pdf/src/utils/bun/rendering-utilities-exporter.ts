@@ -1,6 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { escapeStringForRegex } from '@ahmedrowaihi/pdf-forge-toolbox';
+import { escapeStringForRegex } from '@ahmedrowaihi/pdf-forge-dev-tools';
 
 /**
  * Bun plugin to export the `render` function out of the user's PDF template

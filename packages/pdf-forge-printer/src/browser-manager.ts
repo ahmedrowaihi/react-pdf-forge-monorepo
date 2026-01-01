@@ -1,9 +1,9 @@
-import { chromium, type Browser } from "playwright";
-import type { PdfLogger } from "./logger";
+import { type Browser, chromium } from 'playwright';
 import {
-  ChromiumResolver,
   type ChromiumLaunchOptions,
-} from "./chromium-resolver";
+  ChromiumResolver,
+} from './chromium-resolver';
+import type { PdfLogger } from './logger';
 
 /**
  * Manages browser instances with pooling for performance
@@ -16,7 +16,7 @@ export class BrowserManager {
   private readonly chromiumResolver: ChromiumResolver;
   private launchOptions: ChromiumLaunchOptions | null = null;
 
-  constructor(maxSize = 3, logger: PdfLogger) {
+  constructor(maxSize, logger: PdfLogger) {
     this.maxSize = maxSize;
     this.logger = logger;
     this.chromiumResolver = new ChromiumResolver(logger);
@@ -40,7 +40,7 @@ export class BrowserManager {
     }
 
     // Pool exhausted, create temporary browser
-    this.logger.warn("Browser pool exhausted, creating temporary browser");
+    this.logger.warn('Browser pool exhausted, creating temporary browser');
     return await this.createBrowser();
   }
 
@@ -52,7 +52,7 @@ export class BrowserManager {
       this.browsers.push(browser);
     } else {
       browser.close().catch((err) => {
-        this.logger.error("Error closing browser:", err);
+        this.logger.error('Error closing browser:', err);
       });
     }
   }
@@ -83,7 +83,7 @@ export class BrowserManager {
    */
   async closeAll(): Promise<void> {
     await Promise.all(
-      this.browsers.map((browser) => browser.close().catch(() => {}))
+      this.browsers.map((browser) => browser.close().catch(() => {})),
     );
     this.browsers = [];
   }

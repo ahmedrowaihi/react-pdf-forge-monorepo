@@ -1,4 +1,4 @@
-import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-toolbox';
+import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-templates';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import Link from 'next/link';

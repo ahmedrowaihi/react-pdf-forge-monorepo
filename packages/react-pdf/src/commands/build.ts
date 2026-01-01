@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { registerSpinnerAutostopping } from '@ahmedrowaihi/pdf-forge-dev-tools';
 import {
   getTemplatesDirectoryMetadata,
-  registerSpinnerAutostopping,
   type TemplatesDirectory,
-} from '@ahmedrowaihi/pdf-forge-toolbox';
+} from '@ahmedrowaihi/pdf-forge-templates';
 import logSymbols from 'log-symbols';
 import { installDependencies, type PackageManagerName, runScript } from 'nypm';
 import ora from 'ora';

@@ -89,7 +89,7 @@ importers:
         version: link:../../packages/components
       '@ahmedrowaihi/pdf-forge-core':
         specifier: workspace:*
-        version: link:../../packages/render
+        version: link:../../packages/core
       '@ahmedrowaihi/pdf-forge-preview':
         specifier: workspace:*
         version: link:../../packages/preview-server
@@ -128,18 +128,101 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
+  packages/assets:
+    dependencies:
+      '@ahmedrowaihi/pdf-forge-dev-tools':
+        specifier: workspace:*
+        version: link:../dev-tools
+      '@babel/generator':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/parser':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/traverse':
+        specifier: ^7.28.5
+        version: 7.28.5
+      '@babel/types':
+        specifier: ^7.28.5
+        version: 7.28.5
+    devDependencies:
+      '@types/babel__core':
+        specifier: 7.20.5
+        version: 7.20.5
+      '@types/babel__generator':
+        specifier: 7.6.8
+        version: 7.6.8
+      '@types/babel__traverse':
+        specifier: 7.20.7
+        version: 7.20.7
+      '@types/bun':
+        specifier: ^1.3.5
+        version: 1.3.5
+      '@types/chokidar':
+        specifier: ^1.7.5
+        version: 1.7.5
+      '@types/node':
+        specifier: 22.14.1
+        version: 22.14.1
+      chokidar:
+        specifier: ^4.0.3
+        version: 4.0.3
+      tsdown:
+        specifier: 0.15.12
+        version: 0.15.12(oxc-resolver@11.16.2)(typescript@5.9.3)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
   packages/components:
     dependencies:
       '@ahmedrowaihi/pdf-forge-core':
         specifier: workspace:*
-        version: link:../render
-      '@ahmedrowaihi/pdf-forge-primitive':
-        specifier: workspace:*
-        version: link:../primitive
+        version: link:../core
     devDependencies:
       react:
         specifier: ^19
         version: 19.2.3
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/core:
+    dependencies:
+      html-to-text:
+        specifier: ^9.0.5
+        version: 9.0.5
+      prettier:
+        specifier: ^3.5.3
+        version: 3.7.4
+    devDependencies:
+      '@edge-runtime/vm':
+        specifier: 5.0.0
+        version: 5.0.0
+      '@types/html-to-text':
+        specifier: 9.0.4
+        version: 9.0.4
+      '@types/node':
+        specifier: 22.14.1
+        version: 22.14.1
+      '@types/react':
+        specifier: ^19
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.2.3(@types/react@19.2.7)
+      jsdom:
+        specifier: 26.1.0
+        version: 26.1.0
+      react:
+        specifier: ^19
+        version: 19.2.3
+      react-dom:
+        specifier: ^19
+        version: 19.2.3(react@19.2.3)
       tsconfig:
         specifier: workspace:*
         version: link:../tsconfig
@@ -162,6 +245,31 @@ importers:
       tsconfig:
         specifier: workspace:*
         version: link:../tsconfig
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+
+  packages/dev-tools:
+    dependencies:
+      log-symbols:
+        specifier: ^7.0.0
+        version: 7.0.1
+      ora:
+        specifier: ^8.0.0
+        version: 8.2.0
+      tsconfig-paths:
+        specifier: 4.2.0
+        version: 4.2.0
+    devDependencies:
+      '@types/bun':
+        specifier: ^1.3.5
+        version: 1.3.5
+      '@types/node':
+        specifier: 22.14.1
+        version: 22.14.1
+      tsdown:
+        specifier: 0.15.12
+        version: 0.15.12(oxc-resolver@11.16.2)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -193,12 +301,18 @@ importers:
 
   packages/preview-server:
     dependencies:
+      '@ahmedrowaihi/pdf-forge-assets':
+        specifier: workspace:*
+        version: link:../assets
+      '@ahmedrowaihi/pdf-forge-dev-tools':
+        specifier: workspace:*
+        version: link:../dev-tools
       '@ahmedrowaihi/pdf-forge-printer':
         specifier: workspace:*
         version: link:../pdf-forge-printer
-      '@ahmedrowaihi/pdf-forge-toolbox':
+      '@ahmedrowaihi/pdf-forge-templates':
         specifier: workspace:*
-        version: link:../toolbox
+        version: link:../templates
       next:
         specifier: 16.0.10
         version: 16.0.10(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -214,7 +328,7 @@ importers:
         version: link:../components
       '@ahmedrowaihi/pdf-forge-core':
         specifier: workspace:*
-        version: link:../render
+        version: link:../core
       '@lottiefiles/dotlottie-react':
         specifier: 0.13.3
         version: 0.13.3(react@19.2.3)
@@ -356,9 +470,15 @@ importers:
 
   packages/react-pdf:
     dependencies:
-      '@ahmedrowaihi/pdf-forge-toolbox':
+      '@ahmedrowaihi/pdf-forge-assets':
         specifier: workspace:*
-        version: link:../toolbox
+        version: link:../assets
+      '@ahmedrowaihi/pdf-forge-dev-tools':
+        specifier: workspace:*
+        version: link:../dev-tools
+      '@ahmedrowaihi/pdf-forge-templates':
+        specifier: workspace:*
+        version: link:../templates
       chokidar:
         specifier: ^4.0.3
         version: 4.0.3
@@ -404,7 +524,7 @@ importers:
         version: link:../components
       '@ahmedrowaihi/pdf-forge-core':
         specifier: workspace:*
-        version: link:../render
+        version: link:../core
       '@types/bun':
         specifier: ^1.3.5
         version: 1.3.5
@@ -430,42 +550,17 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
-  packages/render:
-    dependencies:
-      html-to-text:
-        specifier: ^9.0.5
-        version: 9.0.5
-      prettier:
-        specifier: ^3.5.3
-        version: 3.7.4
+  packages/templates:
     devDependencies:
-      '@edge-runtime/vm':
-        specifier: 5.0.0
-        version: 5.0.0
-      '@types/html-to-text':
-        specifier: 9.0.4
-        version: 9.0.4
+      '@types/bun':
+        specifier: ^1.3.5
+        version: 1.3.5
       '@types/node':
         specifier: 22.14.1
         version: 22.14.1
-      '@types/react':
-        specifier: ^19
-        version: 19.2.7
-      '@types/react-dom':
-        specifier: ^19
-        version: 19.2.3(@types/react@19.2.7)
-      jsdom:
-        specifier: 26.1.0
-        version: 26.1.0
-      react:
-        specifier: ^19
-        version: 19.2.3
-      react-dom:
-        specifier: ^19
-        version: 19.2.3(react@19.2.3)
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
+      tsdown:
+        specifier: 0.15.12
+        version: 0.15.12(oxc-resolver@11.16.2)(typescript@5.9.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3

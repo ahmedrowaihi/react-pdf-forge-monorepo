@@ -3,10 +3,8 @@
 "@ahmedrowaihi/pdf-forge-preview": minor
 "@ahmedrowaihi/pdf-forge-components": minor
 "create-pdf-forge": minor
-"@ahmedrowaihi/pdf-forge-primitive": minor
 "@ahmedrowaihi/pdf-forge-cli": minor
 "tsconfig": minor
-"@ahmedrowaihi/pdf-forge-toolbox": minor
 "@ahmedrowaihi/pdf-forge-core": minor
 ---
 

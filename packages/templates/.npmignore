@@ -1,0 +1,8 @@
+node_modules
+src
+tsconfig.json
+*.test.ts
+*.test.tsx
+vitest.config.ts
+.turbo
+

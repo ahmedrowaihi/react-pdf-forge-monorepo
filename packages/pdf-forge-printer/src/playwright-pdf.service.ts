@@ -1,17 +1,17 @@
-import type { ResizeOptions } from "sharp";
-import type { PdfLogger } from "./logger";
-import { ConsoleLogger } from "./logger";
-import { BrowserManager } from "./browser-manager";
-import { Renderer, type RenderInput } from "./renderer";
+import type { ResizeOptions } from 'sharp';
+import { BrowserManager } from './browser-manager';
+import type { PdfLogger } from './logger';
+import { ConsoleLogger } from './logger';
+import { Renderer } from './renderer';
 
 export interface RenderContextOptions {
   viewport?: {
     width: number;
     height: number;
   };
-  colorScheme?: "light" | "dark";
+  colorScheme?: 'light' | 'dark';
   locale?: string;
-  reducedMotion?: "reduce" | "no-preference";
+  reducedMotion?: 'reduce' | 'no-preference';
   isMobile?: boolean;
   hasTouch?: boolean;
   deviceScaleFactor?: number;
@@ -19,7 +19,7 @@ export interface RenderContextOptions {
 }
 
 export interface RenderPdfOptions {
-  format?: "A4" | "Letter";
+  format?: 'A4' | 'Letter';
   width?: string;
   height?: string;
   printBackground?: boolean;
@@ -39,11 +39,11 @@ export interface RenderPdfOptions {
 
 export interface RenderScreenshotOptions {
   fullPage?: boolean;
-  type?: "png" | "jpeg";
+  type?: 'png' | 'jpeg';
   quality?: number;
-  scale?: "css" | "device";
-  animations?: "disabled" | "allow";
-  caret?: "hide" | "show";
+  scale?: 'css' | 'device';
+  animations?: 'disabled' | 'allow';
+  caret?: 'hide' | 'show';
   omitBackground?: boolean;
   clip?: {
     x: number;
@@ -62,7 +62,6 @@ export interface RenderScreenshotOptions {
  * - Provides high-level API for PDF/screenshot generation
  */
 export class PlaywrightPdfService {
-  private readonly logger: PdfLogger;
   private readonly browserManager: BrowserManager;
   private readonly renderer: Renderer;
 
@@ -75,7 +74,7 @@ export class PlaywrightPdfService {
   async render(input: {
     html?: string;
     url?: string;
-    outputType: "pdf" | "screenshot";
+    outputType: 'pdf' | 'screenshot';
     darkMode?: boolean;
     contextOptions?: Partial<RenderContextOptions>;
     screenshotOptions?: Partial<RenderScreenshotOptions>;

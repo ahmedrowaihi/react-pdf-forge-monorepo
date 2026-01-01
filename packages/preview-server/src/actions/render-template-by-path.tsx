@@ -5,7 +5,7 @@ import path from 'node:path';
 import {
   registerSpinnerAutostopping,
   styleText,
-} from '@ahmedrowaihi/pdf-forge-toolbox';
+} from '@ahmedrowaihi/pdf-forge-dev-tools';
 import logSymbols from 'log-symbols';
 import ora, { type Ora } from 'ora';
 import type React from 'react';

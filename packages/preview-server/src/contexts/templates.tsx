@@ -1,6 +1,6 @@
 'use client';
 
-import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-toolbox';
+import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-templates';
 import { createContext, useContext, useState } from 'react';
 import { getTemplatesDirectoryMetadataAction } from '../actions/get-templates-directory-metadata-action';
 import { isBuilding, isPreviewDevelopment } from '../app/env';

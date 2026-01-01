@@ -11,7 +11,9 @@
   "main": "./index.mjs",
   "dependencies": {
     "@ahmedrowaihi/pdf-forge-printer": "workspace:*",
-    "@ahmedrowaihi/pdf-forge-toolbox": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-assets": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-dev-tools": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-templates": "workspace:*",
     "next": "16.0.10",
     "playwright": "^1.57.0",
     "sharp": "^0.34.5"
@@ -64,7 +66,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
     "directory": "packages/preview-server"
   },
   "engines": {

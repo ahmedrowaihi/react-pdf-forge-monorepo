@@ -1,5 +1,5 @@
-import type Chromium from "@sparticuz/chromium";
-import type { PdfLogger } from "./logger";
+import type Chromium from '@sparticuz/chromium';
+import type { PdfLogger } from './logger';
 
 export interface ChromiumLaunchOptions {
   executablePath?: string;
@@ -18,16 +18,16 @@ export class ChromiumResolver {
    */
   async resolve(): Promise<ChromiumLaunchOptions> {
     const defaultArgs = [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-web-security",
-      "--disable-dev-shm-usage",
-      "--disable-blink-features=AutomationControlled",
-      "--disable-features=IsolateOrigins,site-per-process",
-      "--disable-extensions",
-      "--disable-background-timer-throttling",
-      "--disable-renderer-backgrounding",
-      "--disable-backgrounding-occluded-windows",
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-web-security',
+      '--disable-dev-shm-usage',
+      '--disable-blink-features=AutomationControlled',
+      '--disable-features=IsolateOrigins,site-per-process',
+      '--disable-extensions',
+      '--disable-background-timer-throttling',
+      '--disable-renderer-backgrounding',
+      '--disable-backgrounding-occluded-windows',
     ];
 
     // Explicit path override (highest priority)
@@ -39,9 +39,9 @@ export class ChromiumResolver {
     }
 
     // Try to use @sparticuz/chromium on Linux or when forced
-    const isLinux = process.platform === "linux";
+    const isLinux = process.platform === 'linux';
     const forceSparticuz =
-      process.env.USE_SPARTICUZ_CHROMIUM === "true" ||
+      process.env.USE_SPARTICUZ_CHROMIUM === 'true' ||
       process.env.AWS_LAMBDA_FUNCTION_NAME;
 
     if (isLinux || forceSparticuz) {
@@ -51,7 +51,7 @@ export class ChromiumResolver {
       }
     } else {
       this.logger.log(
-        `Platform is ${process.platform}, using Playwright's default Chromium (use @sparticuz/chromium on Linux/serverless)`
+        `Platform is ${process.platform}, using Playwright's default Chromium (use @sparticuz/chromium on Linux/serverless)`,
       );
     }
 
@@ -69,7 +69,7 @@ export class ChromiumResolver {
       const ChromiumClass = await this.loadSparticuzChromium();
       if (!ChromiumClass) {
         this.logger.log(
-          "@sparticuz/chromium not available, using Playwright's default Chromium"
+          "@sparticuz/chromium not available, using Playwright's default Chromium",
         );
         return null;
       }
@@ -84,24 +84,24 @@ export class ChromiumResolver {
         : [];
 
       const defaultArgs = [
-        "--no-sandbox",
-        "--disable-setuid-sandbox",
-        "--disable-web-security",
-        "--disable-dev-shm-usage",
-        "--disable-blink-features=AutomationControlled",
-        "--disable-features=IsolateOrigins,site-per-process",
-        "--disable-extensions",
-        "--disable-background-timer-throttling",
-        "--disable-renderer-backgrounding",
-        "--disable-backgrounding-occluded-windows",
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-web-security',
+        '--disable-dev-shm-usage',
+        '--disable-blink-features=AutomationControlled',
+        '--disable-features=IsolateOrigins,site-per-process',
+        '--disable-extensions',
+        '--disable-background-timer-throttling',
+        '--disable-renderer-backgrounding',
+        '--disable-backgrounding-occluded-windows',
       ];
 
       // Disable WebGL if configured
-      if (process.env.SPARTICUZ_CHROMIUM_DISABLE_WEBGL === "true") {
+      if (process.env.SPARTICUZ_CHROMIUM_DISABLE_WEBGL === 'true') {
         ChromiumClass.setGraphicsMode = false;
       }
 
-      this.logger.log("Using @sparticuz/chromium as default browser");
+      this.logger.log('Using @sparticuz/chromium as default browser');
 
       return {
         executablePath,
@@ -109,7 +109,7 @@ export class ChromiumResolver {
       };
     } catch (error) {
       this.logger.warn(
-        "Failed to load @sparticuz/chromium, falling back to Playwright's default Chromium"
+        "Failed to load @sparticuz/chromium, falling back to Playwright's default Chromium",
       );
       this.logger.debug(String(error));
       return null;
@@ -121,7 +121,7 @@ export class ChromiumResolver {
    */
   private async loadSparticuzChromium(): Promise<typeof Chromium | null> {
     try {
-      const sparticuzChromiumModule = await import("@sparticuz/chromium");
+      const sparticuzChromiumModule = await import('@sparticuz/chromium');
       const ChromiumClass =
         sparticuzChromiumModule.default || sparticuzChromiumModule;
 

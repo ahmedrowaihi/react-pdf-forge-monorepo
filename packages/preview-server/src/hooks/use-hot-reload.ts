@@ -1,6 +1,6 @@
 'use client';
 
-import type { HotReloadChange } from '@ahmedrowaihi/pdf-forge-toolbox';
+import type { HotReloadChange } from '@ahmedrowaihi/pdf-forge-dev-tools';
 import { useEffect, useRef } from 'react';
 import { io, type Socket } from 'socket.io-client';
 

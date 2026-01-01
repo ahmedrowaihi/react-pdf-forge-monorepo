@@ -1,8 +1,8 @@
 import { existsSync, promises as fs, statSync } from 'node:fs';
 import path from 'node:path';
+import { resolvePathAliases } from '@ahmedrowaihi/pdf-forge-dev-tools';
 import type { EventName } from 'chokidar/handler.js';
 import { getImportedModules } from './get-imported-modules.js';
-import { resolvePathAliases } from './resolve-path-aliases.js';
 
 interface Module {
   path: string;

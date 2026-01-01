@@ -1,6 +1,6 @@
 import './globals.css';
 
-import { getTemplatesDirectoryMetadata } from '@ahmedrowaihi/pdf-forge-toolbox';
+import { getTemplatesDirectoryMetadata } from '@ahmedrowaihi/pdf-forge-templates';
 import type { Metadata } from 'next';
 import { TemplatesProvider } from '../contexts/templates';
 import { templatesDirectoryAbsolutePath } from './env';

@@ -26,8 +26,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@ahmedrowaihi/pdf-forge-core": "workspace:*",
-    "@ahmedrowaihi/pdf-forge-primitive": "workspace:*"
+    "@ahmedrowaihi/pdf-forge-core": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.0 || ^19.0"
@@ -39,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
     "directory": "packages/components"
   },
   "keywords": [

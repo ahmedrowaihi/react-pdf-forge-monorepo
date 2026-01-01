@@ -1,5 +1,5 @@
 'use client';
-import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-toolbox';
+import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-templates';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import * as React from 'react';
 import { cn } from '../../utils';
