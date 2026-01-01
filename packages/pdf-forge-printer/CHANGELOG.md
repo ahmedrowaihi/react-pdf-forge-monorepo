@@ -1,5 +1,15 @@
 # @ahmedrowaihi/pdf-forge-printer
 
+## 2.0.0-canary.3
+
+### Major Changes
+
+- 00e21c6: split packages
+
+### Minor Changes
+
+- 0d924cc: serverless chromium on lambda
+
 ## 1.2.0-canary.2
 
 ### Patch Changes

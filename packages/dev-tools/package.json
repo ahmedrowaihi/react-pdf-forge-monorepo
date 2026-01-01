@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-dev-tools",
-  "version": "1.2.0-canary.2",
+  "version": "2.0.0-canary.3",
   "description": "Development utilities for PDF Forge (hot reload, spinners, path resolution, etc.)",
   "type": "module",
   "main": "./dist/index.js",
