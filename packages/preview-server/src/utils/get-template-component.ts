@@ -1,7 +1,19 @@
+import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { transformAssetsToImports } from '@ahmedrowaihi/pdf-forge-assets';
 import type { render } from '@ahmedrowaihi/pdf-forge-components';
-import { convertStackWithSourceMap } from '@ahmedrowaihi/pdf-forge-dev-tools';
-import { type BuildFailure, build, type OutputFile } from 'esbuild';
+import {
+  convertStackWithSourceMap,
+  escapeStringForRegex,
+  renderingUtilitiesExporter,
+} from '@ahmedrowaihi/pdf-forge-dev-tools';
+import {
+  type BuildFailure,
+  build,
+  type Loader,
+  type OutputFile,
+  type PluginBuild,
+} from 'esbuild';
 import type React from 'react';
 import type { RawSourceMap } from 'source-map-js';
 import { z } from 'zod';
@@ -25,6 +37,35 @@ const TemplateComponentModule = z.object({
   default: z.any(),
   render: z.function(),
   reactPDFCreateReactElement: z.function(),
+});
+
+/**
+ * Esbuild plugin that transforms asset references to base64 imports
+ */
+const createAssetTransformerPlugin = (templatePath: string) => ({
+  name: 'asset-transformer',
+  setup: async (build: PluginBuild) => {
+    const realTemplatePath = await fs.realpath(templatePath);
+    const escapedPath = escapeStringForRegex(realTemplatePath);
+
+    build.onLoad(
+      {
+        filter: new RegExp(escapedPath),
+      },
+      async ({ path: pathToFile }) => {
+        const originalCode = await fs.readFile(pathToFile, 'utf8');
+        const transformed = await transformAssetsToImports(
+          originalCode,
+          pathToFile,
+        );
+
+        return {
+          contents: transformed.code,
+          loader: path.extname(pathToFile).slice(1) as Loader,
+        };
+      },
+    );
+  },
 });
 
 export const getTemplateComponent = async (
@@ -52,6 +93,10 @@ export const getTemplateComponent = async (
     const buildData = await build({
       bundle: true,
       entryPoints: [templatePath],
+      plugins: [
+        createAssetTransformerPlugin(templatePath),
+        renderingUtilitiesExporter([templatePath]),
+      ],
       platform: 'node',
       write: false,
       jsxDev: true,
