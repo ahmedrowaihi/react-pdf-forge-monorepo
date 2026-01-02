@@ -1,5 +1,11 @@
 # tsconfig
 
+## 2.0.0-canary.5
+
+### Minor Changes
+
+- 9bd2065: fix node revert
+
 ## 2.0.0-canary.4
 
 ### Minor Changes

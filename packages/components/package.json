@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-components",
-  "version": "2.0.0-canary.4",
+  "version": "2.0.0-canary.5",
   "description": "A collection of all React PDF Render components",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
