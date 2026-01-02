@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-assets",
-  "version": "2.0.0-canary.5",
+  "version": "2.0.0-canary.6",
   "description": "Asset transformation and dependency graph utilities for PDF Forge",
   "type": "module",
   "main": "./dist/index.js",
