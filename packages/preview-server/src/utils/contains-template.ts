@@ -1,4 +1,4 @@
-import type { TemplatesDirectory } from './get-templates-directory-metadata';
+import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-templates';
 
 export const removeFilenameExtension = (filename: string): string => {
   const parts = filename.split('.');

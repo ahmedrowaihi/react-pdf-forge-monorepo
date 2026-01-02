@@ -4,7 +4,7 @@
 <div align="center">
 <a href="https://react-pdf-forge.com">Website</a>
 <span> · </span>
-<a href="https://github.com/ahmedrowaihi/react-pdf-forge">GitHub</a>
+<a href="https://github.com/ahmedrowaihi/react-pdf-forge-monorepo">GitHub</a>
 </div>
 
 ## Introduction
@@ -14,7 +14,17 @@ It simplifies PDF generation with proper page settings, print styles, and page b
 
 ## Why
 
-We believe that PDF generation should be as simple as building web applications. React PDF Render provides a modern, component-based approach to creating PDF templates with React, making it easy to generate professional PDFs programmatically.
+PDF template development is fragmented and painful. Teams use different templating engines (Handlebars, EJS), write manual HTML, or struggle with low-level PDF APIs—reinventing the wheel on every project.
+
+**PDF Forge changes that.** Just like [React Email](https://github.com/resend/react-email) revolutionized email templates, PDF Forge brings modern React development to PDF generation:
+
+**Zero boilerplate** - Focus on content, not formatting
+**Component-based** - Build reusable templates like React components
+**Live preview** - See changes instantly with `pdf dev`
+**Framework agnostic** - Works with any Node.js backend
+**Portable** - Version, test, and reuse templates across projects
+
+Stop wrestling with HTML/CSS quirks and PDF rendering edge cases. Write React components the way you already know, and let PDF Forge handle the complexity.
 
 ## Install
 
@@ -49,7 +59,6 @@ import {
   Document,
   PrintStyles,
   Body,
-  Heading,
 } from "@ahmedrowaihi/pdf-forge-components";
 import { render } from "@ahmedrowaihi/pdf-forge-core";
 
@@ -62,7 +71,8 @@ const PDFTemplate = () => {
         `}
       </PrintStyles>
       <Body>
-        <Heading as="h1">Hello World</Heading>
+        <h1>Hello World</h1>
+        <p>Your PDF content here</p>
       </Body>
     </Document>
   );
@@ -209,5 +219,3 @@ Contributions are welcome! Please see our contributing guidelines.
 ## License
 
 MIT License
-
-> **Note:** This project is a fork of [React Email](https://github.com/resend/react-email), adapted for PDF generation. Thanks Resend team.

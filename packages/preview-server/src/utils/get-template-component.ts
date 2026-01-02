@@ -1,15 +1,25 @@
 import path from 'node:path';
 import type { render } from '@ahmedrowaihi/pdf-forge-components';
+import { convertStackWithSourceMap } from '@ahmedrowaihi/pdf-forge-dev-tools';
 import { type BuildFailure, build, type OutputFile } from 'esbuild';
 import type React from 'react';
 import type { RawSourceMap } from 'source-map-js';
 import { z } from 'zod';
-import { convertStackWithSourceMap } from './convert-stack-with-sourcemap';
-import { renderingUtilitiesExporter } from './esbuild/renderring-utilities-exporter';
 import { isErr } from './result';
 import { createContext, runBundledCode } from './run-bundled-code';
 import type { ErrorObject } from './types/error-object';
 import type { Template as TemplateComponent } from './types/template';
+
+// Component cache for hot-reload scenarios
+const componentCache = new Map<string, unknown>();
+
+/**
+ * Clear the component cache for a specific template path
+ * Used during hot-reload to invalidate cached components
+ */
+export function clearComponentCache(templatePath: string): void {
+  componentCache.delete(templatePath);
+}
 
 const TemplateComponentModule = z.object({
   default: z.any(),
@@ -42,7 +52,6 @@ export const getTemplateComponent = async (
     const buildData = await build({
       bundle: true,
       entryPoints: [templatePath],
-      plugins: [renderingUtilitiesExporter([templatePath])],
       platform: 'node',
       write: false,
       jsxDev: true,

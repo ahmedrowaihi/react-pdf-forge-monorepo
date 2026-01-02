@@ -38,7 +38,7 @@ export default function Home() {
           </Text>
           <Button asChild className="mt-3" size="3">
             <Link
-              href="https://github.com/ahmedrowaihi/react-pdf-forge"
+              href="https://github.com/ahmedrowaihi/react-pdf-forge-monorepo"
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -1,5 +1,52 @@
 # @ahmedrowaihi/pdf-forge-printer
 
+## 2.0.0-canary.6
+
+### Minor Changes
+
+- 9c94a93: revert back to node & esbuild
+
+## 2.0.0-canary.5
+
+### Patch Changes
+
+- 7eb50c4: external bun build react and react-dom
+- 580296f: prevent cache errors and jsx dev runtime
+
+## 2.0.0-canary.4
+
+### Patch Changes
+
+- 675311a: assure serverless playwright on linux only
+
+## 2.0.0-canary.3
+
+### Major Changes
+
+- 00e21c6: split packages
+
+### Minor Changes
+
+- 0d924cc: serverless chromium on lambda
+
+## 1.2.0-canary.2
+
+### Patch Changes
+
+- 82187cc: packages lint
+
+## 1.2.0-canary.1
+
+### Patch Changes
+
+- ea6c717: release bun runtime
+
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- 5e324d8: All In Bun and Printer Pool
+
 ## 1.1.0
 
 ### Minor Changes

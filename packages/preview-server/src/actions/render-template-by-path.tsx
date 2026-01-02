@@ -2,6 +2,11 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import {
+  convertStackWithSourceMap,
+  registerSpinnerAutostopping,
+  styleText,
+} from '@ahmedrowaihi/pdf-forge-dev-tools';
 import logSymbols from 'log-symbols';
 import ora, { type Ora } from 'ora';
 import type React from 'react';
@@ -11,11 +16,11 @@ import {
   previewServerLocation,
   userProjectLocation,
 } from '../app/env';
-import { convertStackWithSourceMap } from '../utils/convert-stack-with-sourcemap';
 import { createJsxRuntime } from '../utils/create-jsx-runtime';
-import { getTemplateComponent } from '../utils/get-template-component';
-import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping';
-import { styleText } from '../utils/style-text';
+import {
+  clearComponentCache,
+  getTemplateComponent,
+} from '../utils/get-template-component';
 import type { ErrorObject } from '../utils/types/error-object';
 
 export interface RenderedTemplateMetadata {
@@ -92,6 +97,7 @@ export const renderTemplateByPath = async (
 ): Promise<TemplateRenderingResult> => {
   if (invalidatingCache) {
     cache.delete(templatePath);
+    clearComponentCache(templatePath);
   }
 
   if (cache.has(templatePath)) {

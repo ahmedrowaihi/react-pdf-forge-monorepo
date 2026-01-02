@@ -1,10 +1,10 @@
+import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-templates';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import * as React from 'react';
 import { cn } from '../../utils';
-import type { TemplatesDirectory } from '../../utils/get-templates-directory-metadata';
 import { IconFile } from '../icons/icon-file';
 import { FileTreeDirectory } from './file-tree-directory';
 
