@@ -1,5 +1,74 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 2.0.0-canary.5
+
+### Patch Changes
+
+- 7eb50c4: external bun build react and react-dom
+- 580296f: prevent cache errors and jsx dev runtime
+- Updated dependencies [7eb50c4]
+- Updated dependencies [580296f]
+  - @ahmedrowaihi/pdf-forge-printer@2.0.0-canary.5
+  - @ahmedrowaihi/pdf-forge-dev-tools@2.0.0-canary.4
+  - @ahmedrowaihi/pdf-forge-templates@2.0.0-canary.4
+  - @ahmedrowaihi/pdf-forge-assets@2.0.0-canary.4
+
+## 2.0.0-canary.4
+
+### Patch Changes
+
+- Updated dependencies [675311a]
+  - @ahmedrowaihi/pdf-forge-printer@2.0.0-canary.4
+
+## 2.0.0-canary.3
+
+### Major Changes
+
+- 00e21c6: split packages
+
+### Minor Changes
+
+- 0d924cc: serverless chromium on lambda
+
+### Patch Changes
+
+- Updated dependencies [00e21c6]
+- Updated dependencies [0d924cc]
+  - @ahmedrowaihi/pdf-forge-printer@2.0.0-canary.3
+  - @ahmedrowaihi/pdf-forge-dev-tools@2.0.0-canary.3
+  - @ahmedrowaihi/pdf-forge-templates@2.0.0-canary.3
+  - @ahmedrowaihi/pdf-forge-assets@2.0.0-canary.3
+
+## 1.2.0-canary.2
+
+### Patch Changes
+
+- 82187cc: packages lint
+- Updated dependencies [82187cc]
+  - @ahmedrowaihi/pdf-forge-printer@1.2.0-canary.2
+  - @ahmedrowaihi/pdf-forge-toolbox@1.2.0-canary.2
+
+## 1.2.0-canary.1
+
+### Patch Changes
+
+- ea6c717: release bun runtime
+- Updated dependencies [ea6c717]
+  - @ahmedrowaihi/pdf-forge-printer@1.2.0-canary.1
+  - @ahmedrowaihi/pdf-forge-toolbox@1.2.0-canary.1
+
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- 5e324d8: All In Bun and Printer Pool
+
+### Patch Changes
+
+- Updated dependencies [5e324d8]
+  - @ahmedrowaihi/pdf-forge-printer@1.2.0-canary.0
+  - @ahmedrowaihi/pdf-forge-toolbox@1.2.0-canary.0
+
 ## 1.1.0
 
 ### Minor Changes

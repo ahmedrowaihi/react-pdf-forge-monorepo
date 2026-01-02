@@ -1,8 +1,8 @@
 'use client';
+import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-templates';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import * as React from 'react';
 import { cn } from '../../utils';
-import type { TemplatesDirectory } from '../../utils/get-templates-directory-metadata';
 import { Heading } from '../heading';
 import { IconArrowDown } from '../icons/icon-arrow-down';
 import { IconFolder } from '../icons/icon-folder';

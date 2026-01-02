@@ -1,5 +1,34 @@
 # create-pdf-forge
 
+## 2.0.0-canary.3
+
+### Patch Changes
+
+- 7eb50c4: external bun build react and react-dom
+- 580296f: prevent cache errors and jsx dev runtime
+
+## 2.0.0-canary.2
+
+### Major Changes
+
+- 00e21c6: split packages
+
+### Minor Changes
+
+- 0d924cc: serverless chromium on lambda
+
+## 1.2.0-canary.1
+
+### Patch Changes
+
+- 82187cc: packages lint
+
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- ea6c717: release bun runtime
+
 ## 1.1.0
 
 ### Minor Changes

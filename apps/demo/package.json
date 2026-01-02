@@ -9,15 +9,14 @@
     "export": "pdf-dev export"
   },
   "dependencies": {
-    "@ahmedrowaihi/pdf-forge-components": "workspace:*",
     "@ahmedrowaihi/pdf-forge-cli": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-components": "workspace:*",
     "react": "^19",
     "react-dom": "^19"
   },
   "devDependencies": {
     "@ahmedrowaihi/pdf-forge-preview": "workspace:*",
     "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "next": "^16"
+    "@types/react-dom": "^19"
   }
 }

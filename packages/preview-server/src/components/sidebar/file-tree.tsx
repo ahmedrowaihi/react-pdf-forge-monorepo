@@ -1,6 +1,6 @@
+import type { TemplatesDirectory } from '@ahmedrowaihi/pdf-forge-templates';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import * as React from 'react';
-import type { TemplatesDirectory } from '../../utils/get-templates-directory-metadata';
 import { FileTreeDirectoryChildren } from './file-tree-directory-children';
 
 interface FileTreeProps {

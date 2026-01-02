@@ -4,7 +4,7 @@
 <div align="center">
 <a href="https://react-pdf-forge.com">Website</a>
 <span> · </span>
-<a href="https://github.com/ahmedrowaihi/react-pdf-forge">GitHub</a>
+<a href="https://github.com/ahmedrowaihi/react-pdf-forge-monorepo">GitHub</a>
 
 </div>
 
@@ -35,13 +35,14 @@ pnpm install @ahmedrowaihi/pdf-forge-components -E
 Add the component to your PDF template. Include styles where needed.
 
 ```jsx
-import { Document, Body, Heading } from '@ahmedrowaihi/pdf-forge-components';
+import { Document, Body } from '@ahmedrowaihi/pdf-forge-components';
 
 const PDFTemplate = () => {
   return (
     <Document>
       <Body>
-        <Heading as="h1">Lorem ipsum</Heading>
+        <h1>Lorem ipsum</h1>
+        <p>Your PDF content here</p>
       </Body>
     </Document>
   );

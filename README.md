@@ -4,7 +4,7 @@
 <div align="center">
 <a href="https://react-pdf-forge.com">Website</a>
 <span> · </span>
-<a href="https://github.com/ahmedrowaihi/react-pdf-forge">GitHub</a>
+<a href="https://github.com/ahmedrowaihi/react-pdf-forge-monorepo">GitHub</a>
 </div>
 
 ## Introduction
@@ -59,7 +59,6 @@ import {
   Document,
   PrintStyles,
   Body,
-  Heading,
 } from "@ahmedrowaihi/pdf-forge-components";
 import { render } from "@ahmedrowaihi/pdf-forge-core";
 
@@ -72,7 +71,8 @@ const PDFTemplate = () => {
         `}
       </PrintStyles>
       <Body>
-        <Heading as="h1">Hello World</Heading>
+        <h1>Hello World</h1>
+        <p>Your PDF content here</p>
       </Body>
     </Document>
   );

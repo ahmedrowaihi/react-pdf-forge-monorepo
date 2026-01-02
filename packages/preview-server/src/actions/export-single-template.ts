@@ -1,91 +1,21 @@
 'use server';
 
-import type { PlaywrightPdfService } from '@ahmedrowaihi/pdf-forge-printer';
+import type { PlaywrightPdfService as PlaywrightPdfServiceType } from '@ahmedrowaihi/pdf-forge-printer';
 import { z } from 'zod';
-import { getAssetRegistry } from '../utils/asset-registry';
 import { getTemplatePathFromSlug } from './get-template-path-from-slug';
 import { renderTemplateByPath } from './render-template-by-path';
 import { baseActionClient } from './safe-action';
 
-let pdfService: PlaywrightPdfService | null = null;
+let pdfService: PlaywrightPdfServiceType | null = null;
 
 async function getPdfService() {
   if (!pdfService) {
     const { PlaywrightPdfService } = await import(
       '@ahmedrowaihi/pdf-forge-printer'
     );
-    pdfService = new PlaywrightPdfService();
+    pdfService = new PlaywrightPdfService(undefined, 3);
   }
   return pdfService;
-}
-
-/**
- * Process HTML to replace relative asset URLs with base64 data URIs using asset registry
- *
- * Performance: Uses in-memory cache (zero file I/O after first scan)
- * Strategy: Multiple simple regex passes (faster than complex combined pattern)
- *
- * Why regex over AST?
- * - Regex: ~1-5ms for 200KB HTML (simple string ops)
- * - AST: ~25-80ms (parse + traverse + serialize overhead)
- * - HTML is well-formed from React, so regex is safe and faster
- */
-function embedAssetsInHtml(
-  html: string,
-  assetRegistry: Map<string, string>,
-): string {
-  const getBase64 = (url: string): string | undefined => {
-    return (
-      assetRegistry.get(url) ||
-      assetRegistry.get(`/${url}`) ||
-      assetRegistry.get(url.slice(1))
-    );
-  };
-
-  const shouldSkip = (url: string): boolean => {
-    return (
-      url.startsWith('data:') ||
-      url.startsWith('http://') ||
-      url.startsWith('https://') ||
-      url.startsWith('#') ||
-      url.startsWith('mailto:') ||
-      url.startsWith('tel:')
-    );
-  };
-
-  let processedHtml = html;
-
-  // Pattern 1: CSS url() - matches url('/fonts/...') or url("/fonts/...")
-  processedHtml = processedHtml.replace(
-    /url\((['"]?)([^'")]+)\1\)/gi,
-    (match: string, quote: string, url: string) => {
-      if (shouldSkip(url)) return match;
-      const base64 = getBase64(url);
-      return base64 ? `url(${quote}${base64}${quote})` : match;
-    },
-  );
-
-  // Pattern 2: src attribute - matches src="/fonts/..." or src='/fonts/...'
-  processedHtml = processedHtml.replace(
-    /src\s*=\s*(['"])([^'"]+)\1/gi,
-    (match: string, quote: string, url: string) => {
-      if (shouldSkip(url)) return match;
-      const base64 = getBase64(url);
-      return base64 ? `src=${quote}${base64}${quote}` : match;
-    },
-  );
-
-  // Pattern 3: href attribute - matches href="/fonts/..." or href='/fonts/...'
-  processedHtml = processedHtml.replace(
-    /href\s*=\s*(['"])([^'"]+)\1/gi,
-    (match: string, quote: string, url: string) => {
-      if (shouldSkip(url)) return match;
-      const base64 = getBase64(url);
-      return base64 ? `href=${quote}${base64}${quote}` : match;
-    },
-  );
-
-  return processedHtml;
 }
 
 /**
@@ -116,12 +46,7 @@ export const exportSingleTemplate = baseActionClient
         );
       }
 
-      let html = renderingResult.markup;
-
-      if (parsedInput.format !== 'html') {
-        const assetRegistry = await getAssetRegistry(templatePath);
-        html = embedAssetsInHtml(html, assetRegistry);
-      }
+      const html = renderingResult.markup;
 
       if (parsedInput.format === 'html') {
         return {
@@ -152,8 +77,7 @@ export const exportSingleTemplate = baseActionClient
           sharpResizeOptions: {
             width: 2480,
             height: 3508,
-            fit: 'cover',
-            position: 'center',
+            fit: 'inside',
             kernel: 'lanczos3' as const,
             withoutEnlargement: false,
           },

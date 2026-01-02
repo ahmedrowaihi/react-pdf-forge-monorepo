@@ -1,0 +1,54 @@
+{
+  "name": "@ahmedrowaihi/pdf-forge-assets",
+  "version": "2.0.0-canary.4",
+  "description": "Asset transformation and dependency graph utilities for PDF Forge",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./transform-assets-to-imports": {
+      "types": "./dist/transform-assets-to-imports.d.ts",
+      "default": "./dist/transform-assets-to-imports.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts src/transform-assets-to-imports.ts src/create-dependency-graph.ts src/get-imported-modules.ts --format cjs,esm --dts",
+    "clean": "rm -rf dist"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
+    "directory": "packages/assets"
+  },
+  "keywords": [
+    "react",
+    "pdf",
+    "assets",
+    "utilities"
+  ],
+  "dependencies": {
+    "@ahmedrowaihi/pdf-forge-dev-tools": "workspace:*",
+    "@babel/generator": "^7.28.5",
+    "@babel/parser": "^7.28.5",
+    "@babel/traverse": "^7.28.5",
+    "@babel/types": "^7.28.5"
+  },
+  "devDependencies": {
+    "@types/babel__core": "7.20.5",
+    "@types/babel__generator": "7.6.8",
+    "@types/babel__traverse": "7.20.7",
+    "@types/chokidar": "^1.7.5",
+    "@types/node": "22.14.1",
+    "chokidar": "^4.0.3",
+    "tsdown": "0.15.12",
+    "typescript": "5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

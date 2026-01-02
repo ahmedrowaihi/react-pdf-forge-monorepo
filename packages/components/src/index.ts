@@ -1,4 +1,5 @@
 // Core rendering
 export * from '@ahmedrowaihi/pdf-forge-core';
 
-export * from '@ahmedrowaihi/pdf-forge-primitive';
+// Primitive components (merged from primitive package)
+export * from './primitive';

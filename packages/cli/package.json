@@ -1,0 +1,55 @@
+{
+  "name": "@ahmedrowaihi/pdf-forge-cli",
+  "version": "2.0.0-canary.5",
+  "description": "A live preview of your PDF templates right in your browser.",
+  "bin": {
+    "pdf-dev": "./dist/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsdown",
+    "build:watch": "tsdown --watch src",
+    "clean": "rm -rf dist"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "react",
+    "pdf"
+  ],
+  "dependencies": {
+    "@ahmedrowaihi/pdf-forge-assets": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-dev-tools": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-templates": "workspace:*",
+    "chokidar": "^4.0.3",
+    "commander": "^13.0.0",
+    "conf": "^15.0.2",
+    "debounce": "^2.0.0",
+    "esbuild": "^0.27.1",
+    "glob": "^11.0.0",
+    "jiti": "2.4.2",
+    "log-symbols": "^7.0.0",
+    "mime-types": "^3.0.0",
+    "normalize-path": "^3.0.0",
+    "nypm": "0.6.2",
+    "ora": "^8.0.0",
+    "prompts": "2.4.2",
+    "socket.io": "^4.8.1",
+    "tsconfig-paths": "4.2.0"
+  },
+  "devDependencies": {
+    "@ahmedrowaihi/pdf-forge-components": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-core": "workspace:*",
+    "@types/mime-types": "2.1.4",
+    "@types/normalize-path": "3.0.2",
+    "@types/prompts": "2.4.9",
+    "next": "16.0.10",
+    "react": "^19",
+    "react-dom": "^19",
+    "typescript": "5.9.3"
+  }
+}
