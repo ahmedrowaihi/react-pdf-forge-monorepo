@@ -1,5 +1,7 @@
 # @ahmedrowaihi/pdf-forge-cli
 
+## 2.0.0-canary.8
+
 ## 2.0.0-canary.7
 
 ### Minor Changes
