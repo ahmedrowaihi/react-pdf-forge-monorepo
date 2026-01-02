@@ -1,5 +1,63 @@
 # @ahmedrowaihi/pdf-forge-components
 
+## 2.0.0-canary.4
+
+### Minor Changes
+
+- 9c94a93: revert back to node & esbuild
+
+### Patch Changes
+
+- Updated dependencies [9c94a93]
+  - @ahmedrowaihi/pdf-forge-core@2.0.0-canary.4
+
+## 2.0.0-canary.3
+
+### Patch Changes
+
+- 7eb50c4: external bun build react and react-dom
+- 580296f: prevent cache errors and jsx dev runtime
+- Updated dependencies [7eb50c4]
+- Updated dependencies [580296f]
+  - @ahmedrowaihi/pdf-forge-core@2.0.0-canary.3
+
+## 2.0.0-canary.2
+
+### Major Changes
+
+- 00e21c6: split packages
+
+### Minor Changes
+
+- 0d924cc: serverless chromium on lambda
+
+### Patch Changes
+
+- Updated dependencies [00e21c6]
+- Updated dependencies [0d924cc]
+  - @ahmedrowaihi/pdf-forge-core@2.0.0-canary.2
+
+## 1.2.0-canary.1
+
+### Patch Changes
+
+- 82187cc: packages lint
+- Updated dependencies [82187cc]
+  - @ahmedrowaihi/pdf-forge-primitive@1.2.0-canary.1
+  - @ahmedrowaihi/pdf-forge-core@1.2.0-canary.1
+
+## 1.2.0-canary.0
+
+### Minor Changes
+
+- ea6c717: release bun runtime
+
+### Patch Changes
+
+- Updated dependencies [ea6c717]
+  - @ahmedrowaihi/pdf-forge-primitive@1.2.0-canary.0
+  - @ahmedrowaihi/pdf-forge-core@1.2.0-canary.0
+
 ## 1.1.0
 
 ### Minor Changes

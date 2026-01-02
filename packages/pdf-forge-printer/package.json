@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-printer",
-  "version": "1.1.0",
+  "version": "2.0.0-canary.6",
   "description": "Playwright-based PDF and screenshot rendering service",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -17,8 +17,16 @@
     "playwright": "^1.57.0",
     "sharp": "^0.34.5"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@sparticuz/chromium": ">=143.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@sparticuz/chromium": {
+      "optional": true
+    }
+  },
   "devDependencies": {
+    "@sparticuz/chromium": ">=143.0.0",
     "@types/node": "22.14.1",
     "tsconfig": "workspace:*",
     "tsdown": "0.15.12",
@@ -26,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
     "directory": "packages/pdf-forge-printer"
   },
   "keywords": [

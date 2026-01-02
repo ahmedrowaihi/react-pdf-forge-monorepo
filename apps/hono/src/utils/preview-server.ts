@@ -110,7 +110,7 @@ async function findStaticDirs(
  * @param templateContext - Optional template path context (e.g., "template-name/main")
  *                          If provided, will prioritize assets from this template's static directory
  */
-export async function serveStaticAsset(
+async function serveStaticAsset(
   assetPath: string,
   templatesDir: string,
   templateContext?: string,
@@ -240,13 +240,7 @@ export async function createPreviewHandler(
       isMain: boolean,
       options: any,
     ) {
-      let resolvedRequest = request;
-      if (
-        request.startsWith('esbuild-') &&
-        /^esbuild-[a-f0-9]+$/.test(request)
-      ) {
-        resolvedRequest = 'esbuild';
-      }
+      const resolvedRequest = request;
       return originalResolveFilename.call(
         this,
         resolvedRequest,

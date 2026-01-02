@@ -1,6 +1,7 @@
 {
-  "name": "hono",
-  "version": "1.1.0",
+  "name": "hono-example",
+  "version": "0.0.0",
+  "private": true,
   "description": "PDF Forge Hono Example - Showcase example demonstrating PDF generation and preview capabilities",
   "type": "module",
   "main": "src/index.tsx",
@@ -14,20 +15,18 @@
     "@ahmedrowaihi/pdf-forge-core": "workspace:*",
     "@ahmedrowaihi/pdf-forge-preview": "workspace:*",
     "@ahmedrowaihi/pdf-forge-printer": "workspace:*",
-    "@hono/node-server": "^1.8.0",
-    "esbuild": "0.25.10",
-    "hono": "^1.1.0",
-    "next": "^16.1.1",
-    "playwright": "^1.57.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@hono/node-server": "^1.19.7",
+    "hono": "^4.11.3",
+    "next": "16.0.10",
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.9.0"
+    "@types/node": "22.14.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tsx": "4.21.0",
+    "typescript": "5.9.3"
   },
   "engines": {
     "node": ">=20.0.0"

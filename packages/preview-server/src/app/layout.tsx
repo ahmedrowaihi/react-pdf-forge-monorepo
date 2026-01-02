@@ -1,8 +1,8 @@
 import './globals.css';
 
+import { getTemplatesDirectoryMetadata } from '@ahmedrowaihi/pdf-forge-templates';
 import type { Metadata } from 'next';
 import { TemplatesProvider } from '../contexts/templates';
-import { getTemplatesDirectoryMetadata } from '../utils/get-templates-directory-metadata';
 import { templatesDirectoryAbsolutePath } from './env';
 import { inter, sfMono } from './fonts';
 

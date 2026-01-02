@@ -1,22 +1,27 @@
-'use server';
+"use server";
 
-import fs from 'node:fs';
-import path from 'node:path';
-import logSymbols from 'log-symbols';
-import ora, { type Ora } from 'ora';
-import type React from 'react';
+import fs from "node:fs";
+import path from "node:path";
+import {
+  registerSpinnerAutostopping,
+  styleText,
+} from "@ahmedrowaihi/pdf-forge-dev-tools";
+import logSymbols from "log-symbols";
+import ora, { type Ora } from "ora";
+import type React from "react";
 import {
   isBuilding,
   isPreviewDevelopment,
   previewServerLocation,
   userProjectLocation,
-} from '../app/env';
-import { convertStackWithSourceMap } from '../utils/convert-stack-with-sourcemap';
-import { createJsxRuntime } from '../utils/create-jsx-runtime';
-import { getTemplateComponent } from '../utils/get-template-component';
-import { registerSpinnerAutostopping } from '../utils/register-spinner-autostopping';
-import { styleText } from '../utils/style-text';
-import type { ErrorObject } from '../utils/types/error-object';
+} from "../app/env";
+import { convertStackWithSourceMap } from "@ahmedrowaihi/pdf-forge-dev-tools";
+import { createJsxRuntime } from "../utils/create-jsx-runtime";
+import {
+  clearComponentCache,
+  getTemplateComponent,
+} from "../utils/get-template-component";
+import type { ErrorObject } from "../utils/types/error-object";
 
 export interface RenderedTemplateMetadata {
   prettyMarkup: string;
@@ -43,7 +48,7 @@ const cache = new Map<string, TemplateRenderingResult>();
 
 const createLogBufferer = (
   originalLogger: (...args: any[]) => void,
-  overwriteLogger: (logger: (...args: any[]) => void) => void,
+  overwriteLogger: (logger: (...args: any[]) => void) => void
 ) => {
   let logs: Array<any[]> = [];
 
@@ -71,27 +76,28 @@ const createLogBufferer = (
 
 const logBufferer = createLogBufferer(
   console.log,
-  (logger) => (console.log = logger),
+  (logger) => (console.log = logger)
 );
 const errorBufferer = createLogBufferer(
   console.error,
-  (logger) => (console.error = logger),
+  (logger) => (console.error = logger)
 );
 const infoBufferer = createLogBufferer(
   console.info,
-  (logger) => (console.info = logger),
+  (logger) => (console.info = logger)
 );
 const warnBufferer = createLogBufferer(
   console.warn,
-  (logger) => (console.warn = logger),
+  (logger) => (console.warn = logger)
 );
 
 export const renderTemplateByPath = async (
   templatePath: string,
-  invalidatingCache = false,
+  invalidatingCache = false
 ): Promise<TemplateRenderingResult> => {
   if (invalidatingCache) {
     cache.delete(templatePath);
+    clearComponentCache(templatePath);
   }
 
   if (cache.has(templatePath)) {
@@ -108,7 +114,7 @@ export const renderTemplateByPath = async (
   if (!isBuilding && !isPreviewDevelopment) {
     spinner = ora({
       text: `Rendering PDF template ${templateFilename}\n`,
-      prefixText: ' ',
+      prefixText: " ",
       stream: process.stderr,
     }).start();
     registerSpinnerAutostopping(spinner);
@@ -117,19 +123,19 @@ export const renderTemplateByPath = async (
   const timeBeforeTemplateBundled = performance.now();
   const originalJsxRuntimePath = path.resolve(
     previewServerLocation,
-    'jsx-runtime',
+    "jsx-runtime"
   );
   const jsxRuntimePath = await createJsxRuntime(
     userProjectLocation,
-    originalJsxRuntimePath,
+    originalJsxRuntimePath
   );
   const componentResult = await getTemplateComponent(
     templatePath,
-    jsxRuntimePath,
+    jsxRuntimePath
   );
   const millisecondsToBundled = performance.now() - timeBeforeTemplateBundled;
 
-  if ('error' in componentResult) {
+  if ("error" in componentResult) {
     spinner?.stopAndPersist({
       symbol: logSymbols.error,
       text: `Failed while rendering ${templateFilename}`,
@@ -167,17 +173,17 @@ export const renderTemplateByPath = async (
       plainText: true,
     });
 
-    const reactMarkup = await fs.promises.readFile(templatePath, 'utf-8');
+    const reactMarkup = await fs.promises.readFile(templatePath, "utf-8");
 
     const millisecondsToRendered =
       performance.now() - timeBeforeTemplateRendered;
     let timeForConsole = `${millisecondsToRendered.toFixed(0)}ms`;
     if (millisecondsToRendered <= 450) {
-      timeForConsole = styleText('green', timeForConsole);
+      timeForConsole = styleText("green", timeForConsole);
     } else if (millisecondsToRendered <= 1000) {
-      timeForConsole = styleText('yellow', timeForConsole);
+      timeForConsole = styleText("yellow", timeForConsole);
     } else {
-      timeForConsole = styleText('red', timeForConsole);
+      timeForConsole = styleText("red", timeForConsole);
     }
     spinner?.stopAndPersist({
       symbol: logSymbols.success,
@@ -193,8 +199,8 @@ export const renderTemplateByPath = async (
       // This ensures that no null byte character ends up in the rendered
       // markup making users suspect of any issues. These null byte characters
       // only seem to happen with React 18, as it has no similar incident with React 19.
-      markup: markup.replaceAll('\0', ''),
-      markupWithReferences: markupWithReferences.replaceAll('\0', ''),
+      markup: markup.replaceAll("\0", ""),
+      markupWithReferences: markupWithReferences.replaceAll("\0", ""),
       plainText,
       reactMarkup,
 
@@ -237,7 +243,7 @@ export const renderTemplateByPath = async (
       };
 
       const sourceFileAttributeMatches = cause.span.start.file.content.matchAll(
-        /data-source-file="(?<file>[^"]*)"/g,
+        /data-source-file="(?<file>[^"]*)"/g
       );
       let closestSourceFileAttribute: RegExpExecArray | undefined;
       for (const sourceFileAttributeMatch of sourceFileAttributeMatches) {
@@ -253,10 +259,10 @@ export const renderTemplateByPath = async (
       }
 
       const findClosestAttributeValue = (
-        attributeName: string,
+        attributeName: string
       ): string | undefined => {
         const attributeMatches = cause.span.start.file.content.matchAll(
-          new RegExp(`${attributeName}="(?<value>[^"]*)"`, 'g'),
+          new RegExp(`${attributeName}="(?<value>[^"]*)"`, "g")
         );
         let closestAttribute: RegExpExecArray | undefined;
         for (const attributeMatch of attributeMatches) {
@@ -276,11 +282,11 @@ export const renderTemplateByPath = async (
       let stack = convertStackWithSourceMap(
         error.stack,
         templatePath,
-        sourceMapToOriginalFile,
+        sourceMapToOriginalFile
       );
 
-      const sourceFile = findClosestAttributeValue('data-source-file');
-      const sourceLine = findClosestAttributeValue('data-source-line');
+      const sourceFile = findClosestAttributeValue("data-source-file");
+      const sourceLine = findClosestAttributeValue("data-source-line");
       if (sourceFile && sourceLine) {
         stack = ` at ${sourceFile}:${sourceLine}\n${stack}`;
       }
@@ -302,7 +308,7 @@ export const renderTemplateByPath = async (
         stack: convertStackWithSourceMap(
           error.stack,
           templatePath,
-          sourceMapToOriginalFile,
+          sourceMapToOriginalFile
         ),
         cause: error.cause
           ? JSON.parse(JSON.stringify(error.cause))

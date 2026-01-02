@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-components",
-  "version": "1.1.0",
+  "version": "2.0.0-canary.4",
   "description": "A collection of all React PDF Render components",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -26,19 +26,19 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@ahmedrowaihi/pdf-forge-core": "workspace:*",
-    "@ahmedrowaihi/pdf-forge-primitive": "workspace:*"
+    "@ahmedrowaihi/pdf-forge-core": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.0 || ^19.0"
   },
   "devDependencies": {
+    "react": "^19",
     "tsconfig": "workspace:*",
     "typescript": "5.9.3"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
     "directory": "packages/components"
   },
   "keywords": [

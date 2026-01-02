@@ -1,22 +1,20 @@
 {
   "name": "create-pdf-forge",
-  "version": "1.1.0",
+  "version": "2.0.0-canary.4",
   "description": "The easiest way to get started with React PDF",
   "main": "src/index.js",
   "type": "module",
   "license": "MIT",
-  "scripts": {
-    "test": "vitest run"
-  },
+  "scripts": {},
   "dependencies": {
     "commander": "^13.0.0",
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "log-symbols": "^7.0.0",
     "ora": "^8.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
     "directory": "packages/create-pdf"
   },
   "keywords": [
@@ -30,9 +28,7 @@
     "create-pdf-forge": "src/index.js"
   },
   "devDependencies": {
-    "nypm": "0.6.0",
-    "react": "19.0.0",
     "tsconfig": "workspace:*",
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   }
 }

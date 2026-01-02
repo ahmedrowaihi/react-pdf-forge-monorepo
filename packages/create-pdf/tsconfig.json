@@ -6,7 +6,6 @@
     "moduleResolution": "nodenext",
     "module": "nodenext",
     "jsx": "react-jsx",
-    "noEmit": true,
-    "types": ["vitest/globals"]
+    "noEmit": true
   }
 }

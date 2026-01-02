@@ -1,6 +1,6 @@
 {
   "name": "@ahmedrowaihi/pdf-forge-preview",
-  "version": "1.1.0",
+  "version": "2.0.0-canary.6",
   "description": "A live preview of your PDF templates right in your browser.",
   "scripts": {
     "build": "tsx ./scripts/build-preview-server.mts",
@@ -10,16 +10,18 @@
   },
   "main": "./index.mjs",
   "dependencies": {
+    "@ahmedrowaihi/pdf-forge-assets": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-dev-tools": "workspace:*",
     "@ahmedrowaihi/pdf-forge-printer": "workspace:*",
-    "esbuild": "0.25.10",
+    "@ahmedrowaihi/pdf-forge-templates": "workspace:*",
+    "esbuild": "^0.27.1",
     "next": "16.0.10",
     "playwright": "^1.57.0",
-    "sharp": "0.34.5"
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
-    "@babel/core": "7.26.10",
-    "@babel/parser": "7.27.0",
-    "@babel/traverse": "7.27.0",
+    "@ahmedrowaihi/pdf-forge-components": "workspace:*",
+    "@ahmedrowaihi/pdf-forge-core": "workspace:*",
     "@lottiefiles/dotlottie-react": "0.13.3",
     "@radix-ui/colors": "3.0.0",
     "@radix-ui/react-collapsible": "1.1.12",
@@ -30,11 +32,7 @@
     "@radix-ui/react-toggle": "1.1.10",
     "@radix-ui/react-toggle-group": "1.1.11",
     "@radix-ui/react-tooltip": "1.2.8",
-    "@ahmedrowaihi/pdf-forge-components": "workspace:*",
-    "@ahmedrowaihi/pdf-forge-core": "workspace:*",
-    "lucide-react": "^0.562.0",
-    "@types/babel__core": "7.20.5",
-    "@types/babel__traverse": "7.20.7",
+    "@tailwindcss/postcss": "4.1.17",
     "@types/css-tree": "2.3.10",
     "@types/fs-extra": "11.0.1",
     "@types/mime-types": "2.1.4",
@@ -46,11 +44,11 @@
     "clsx": "2.1.1",
     "colorjs.io": "0.5.2",
     "framer-motion": "12.23.22",
-    "log-symbols": "4.1.0",
+    "log-symbols": "^7.0.0",
+    "lucide-react": "^0.562.0",
     "module-punycode": "npm:punycode@2.3.1",
     "next-safe-action": "8.0.11",
-    "ora": "5.4.1",
-    "@tailwindcss/postcss": "4.1.17",
+    "ora": "^8.0.0",
     "postcss": "8.5.6",
     "prism-react-renderer": "2.4.1",
     "react": "^19",
@@ -61,18 +59,15 @@
     "stacktrace-parser": "0.1.11",
     "tailwind-merge": "3.2.0",
     "tailwindcss": "4.1.17",
-    "typescript": "5.8.3",
+    "typescript": "5.9.3",
     "use-debounce": "10.0.4",
     "zod": "4.1.12"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ahmedrowaihi/react-pdf-forge.git",
+    "url": "https://github.com/ahmedrowaihi/react-pdf-forge-monorepo.git",
     "directory": "packages/preview-server"
-  },
-  "engines": {
-    "node": ">=20.0.0"
   },
   "publishConfig": {
     "access": "public"

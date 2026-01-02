@@ -117,7 +117,7 @@ src/
 
 1. **Create React Components** → Define PDF templates using React components
 2. **Render to HTML** → Use `render()` from `@ahmedrowaihi/pdf-forge-core` to convert React to HTML
-3. **HTML to PDF** → Use `PlaywrightPdfService` from `@ahmedrowaihi/pdf-forge-printer` to convert HTML to PDF
+3. **HTML to PDF** → Use `PlaywrightPdfService` from `@ahmedrowaihi/pdf-forge-printer` to convert HTML to PDF (with browser pooling for 5-10x faster performance)
 
 ### Preview Server
 
