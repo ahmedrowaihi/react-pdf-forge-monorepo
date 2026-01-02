@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-templates
 
+## 2.0.0-canary.5
+
+### Minor Changes
+
+- 9c94a93: revert back to node & esbuild
+
 ## 2.0.0-canary.4
 
 ### Patch Changes

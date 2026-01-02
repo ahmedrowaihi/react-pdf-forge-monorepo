@@ -1,5 +1,16 @@
 # @ahmedrowaihi/pdf-forge-components
 
+## 2.0.0-canary.4
+
+### Minor Changes
+
+- 9c94a93: revert back to node & esbuild
+
+### Patch Changes
+
+- Updated dependencies [9c94a93]
+  - @ahmedrowaihi/pdf-forge-core@2.0.0-canary.4
+
 ## 2.0.0-canary.3
 
 ### Patch Changes

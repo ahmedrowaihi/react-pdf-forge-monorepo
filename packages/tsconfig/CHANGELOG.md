@@ -1,5 +1,11 @@
 # tsconfig
 
+## 2.0.0-canary.4
+
+### Minor Changes
+
+- 9c94a93: revert back to node & esbuild
+
 ## 2.0.0-canary.3
 
 ### Patch Changes

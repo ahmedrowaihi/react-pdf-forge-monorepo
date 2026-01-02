@@ -1,5 +1,16 @@
 # @ahmedrowaihi/pdf-forge-assets
 
+## 2.0.0-canary.5
+
+### Minor Changes
+
+- 9c94a93: revert back to node & esbuild
+
+### Patch Changes
+
+- Updated dependencies [9c94a93]
+  - @ahmedrowaihi/pdf-forge-dev-tools@2.0.0-canary.5
+
 ## 2.0.0-canary.4
 
 ### Patch Changes
