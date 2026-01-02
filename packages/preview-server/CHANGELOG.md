@@ -1,5 +1,11 @@
 # @ahmedrowaihi/pdf-forge-preview
 
+## 2.0.0-canary.8
+
+### Patch Changes
+
+- 926e73d: oflline transformer
+
 ## 2.0.0-canary.7
 
 ### Minor Changes
